@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../Styles/CreateCourse.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
@@ -12,7 +12,8 @@ const CreateCourse = () => {
   const [classOptions, setClassOptions] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
 
-  // const notify = () => toast.success("Successfully created !!"); 
+  const notify = () => toast.success("Course successfully created !!"); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch subject options from the backend when the component mounts
@@ -55,7 +56,10 @@ const CreateCourse = () => {
 
       // Handle the success response as needed
       console.log(response.data);
-      // notify(); // Notify the user about successful course creation
+      notify(); 
+
+      // Redirect to '/courses' after successful creation
+      navigate("/courses");
 
       // Add additional logic if required, such as redirecting to another page
     } catch (error) {
@@ -63,6 +67,7 @@ const CreateCourse = () => {
       console.error("Error creating course:", error);
     }
   };
+
   return (
     <section className="create__course">
       <div className="create__course-container">
