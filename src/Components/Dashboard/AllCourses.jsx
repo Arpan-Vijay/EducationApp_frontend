@@ -75,6 +75,7 @@ const AllCourses = () => {
           <table className="content__card-table">
             <tbody>
               <tr>
+                <th className="content__table-col-heading">S.No.</th>
                 <th className="content__table-col-heading">Subject</th>
                 <th className="content__table-col-heading">Course Name</th>
                 <th className="content__table-col-heading">Total Chapters</th>
@@ -82,6 +83,7 @@ const AllCourses = () => {
               </tr>
               {userCourses.map((course, index) => (
                 <tr key={index} className="content__table">
+                  <td className="content__table-data">{index + 1}</td>
                   <td className="content__table-data">{course.subject_name}</td>
                   <td className="content__table-data">{course.course_name}</td>
                   <td className="content__table-data">

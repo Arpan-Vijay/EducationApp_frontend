@@ -1,0 +1,20 @@
+.modal_wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom:0;
+    background-color: rgba(189 , 189 , 189 , 0.5);
+}
+
+.modal_container{
+    position: fixed;
+    max-width: 30rem;
+    top:50%;
+    left:50%;
+    /* above two properties do what understand */
+    transform: translate(-50% , -50%);
+    background-color: white;
+    padding: 1em;
+    transition: all ease-in-out 0.2s;
+}

@@ -20,18 +20,6 @@ const AdminAllStudents = () => {
       });
   }, [schoolId]);
 
-  useEffect(() => {
-    // fetch-students data for the specific school including bank details
-    axios
-      .get(`http://localhost:3001/api/fetch-students-with-bank/${schoolId}`)
-      .then((response) => {
-        setStudentsData(response.data.studentsData);
-      })
-      .catch((error) => {
-        console.error("Error fetching students with bank details:", error);
-      });
-  }, [schoolId]);
-
 
   // Function to handle row click and navigate
   const handleRowClick = (userId) => {
@@ -89,6 +77,7 @@ const AdminAllStudents = () => {
           <table className="content__card-table">
             <tbody>
               <tr>
+                <th className="content__table-col-heading">S. No.</th>
                 <th className="content__table-col-heading">Name</th>
                 <th className="content__table-col-heading">Email</th>
                 <th className="content__table-col-heading">Contact Info</th>
@@ -97,13 +86,14 @@ const AdminAllStudents = () => {
                 <th className="content__table-col-heading">Bank Account Number</th>
               </tr>
               {studentsData &&
-                studentsData.map((student) => (
+                studentsData.map((student,index) => (
                   <tr
                     className="content__table"
                     onClick={() => handleRowClick(student.user_id)}
                     key={student.user_id}
                     style={{ cursor: "pointer" }}
                   >
+                    <td className="content__table-data">{index + 1}</td>
                     <td className="content__table-data">
                       {student.first_name} {student.last_name}
                     </td>

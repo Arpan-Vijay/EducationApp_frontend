@@ -1,4 +1,6 @@
 import { useDraggable } from "@dnd-kit/core";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css"
 // import {FaHeading} from 'react-icons/fa';
 
 export default function Video(props) {
@@ -11,11 +13,14 @@ export default function Video(props) {
     } : undefined;
 
     return (
-        <div ref={setNodeRef} className="heading" style={style} {...listeners} {...attributes}>
+        <div ref={setNodeRef} className="draggable" data-tooltip-id="my-tooltip"
+        data-tooltip-content="Drag to add video content"
+        data-tooltip-place="top" style={style} {...listeners} {...attributes}>
             <i className="fa-solid fa-video"></i>
             <p>Video</p>
+            <Tooltip id="my-tooltip" />
         </div>
 
         // <FaHeading   ref={setNodeRef} style={style}  {...listeners} {...attributes}/>
     )
-}   
+} 

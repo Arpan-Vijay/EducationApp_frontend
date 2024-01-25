@@ -31,12 +31,11 @@ const AdminAddStudent = () => {
     guardianName: "",
     guardianNumber: "",
     guardianEmail: "",
-    bankName: "",
-    bankBranchName: "",
-    accountNumber: "",
-    accountHolderName: "",
-    ifscCode: "",
-    accountType: "",
+    accountHolderName : "",
+    bankName : "",
+    accountNumber : "",
+    ifscCode : "",
+    accountType : "",
   });
 
   const notify = () => toast.success("Successfully created !!");
@@ -183,7 +182,7 @@ const AdminAddStudent = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="input-field">
+                {/* <div className="input-field">
                   <label>Upload Picture</label>
                   <input
                     type="file"
@@ -192,7 +191,7 @@ const AdminAddStudent = () => {
                     // value={formData.aadharCardNumber}
                     // onChange={handleChange}
                   />
-                </div>
+                </div> */}
               </div>
               <div className="details__address">
                 <span className="title__heading">Address Details</span>
@@ -340,29 +339,7 @@ const AdminAddStudent = () => {
               <div className="details__account">
                 <span className="title__heading">Account Details</span>
                 <div className="fields">
-                  <div className="input-field">
-                    <label>Bank Name</label>
-                    <input
-                      type="text"
-                      placeholder="Enter bank name"
-                      name="bankName"
-                      value={formData.bankName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-field">
-                    <label>Bank Branch Name</label>
-                    <input
-                      type="text"
-                      placeholder="Enter branch name"
-                      name="bankBranchName"
-                      value={formData.bankBranchName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-field">
+                <div className="input-field">
                     <label>Account Holder Name</label>
                     <input
                       type="text"
@@ -374,6 +351,18 @@ const AdminAddStudent = () => {
                     />
                   </div>
                   <div className="input-field">
+                    <label>Bank Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter bank name"
+                      name="bankName"
+                      value={formData.bankName}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="input-field">
                     <label>Account Number</label>
                     <input
                       type="text"
@@ -384,6 +373,7 @@ const AdminAddStudent = () => {
                       required
                     />
                   </div>
+
                   <div className="input-field">
                     <label>IFSC Code</label>
                     <input

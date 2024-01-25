@@ -136,6 +136,34 @@ const Login = () => {
 
   // Function to handle login form submission
 
+  // const handleLogin = (event) => {
+  //   event.preventDefault();
+
+  //   axios
+  //     .post("http://localhost:3001/login", credentials)
+  //     .then((res) => {
+  //       console.log("Login Response:", res);
+
+  //       if (res.data.success) {
+  //         // Successful authentication
+  //         localStorage.setItem("auth", res.data.token);
+
+  //         // Redirect based on the user role
+  //         if (res.data.redirectUrl) {
+  //           navigate(res.data.redirectUrl);
+  //         } else {
+  //           navigate("/home");
+  //         }
+  //       } else {
+  //         setError("Sap ID or password is incorrect");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error("Login Error:", err);
+  //       setError("Sap ID or password is incorrect");
+  //     });
+  // };
+
   const handleLogin = (event) => {
     event.preventDefault();
 

@@ -1,7 +1,7 @@
 // Sidebar.jsx
 import React, { useState, useEffect } from "react";
 import "../../Styles/Home.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const Sidebar = ({ children , userRole }) => {
   const [isSidebarClosed, setSidebarClosed] = useState(true);
@@ -14,6 +14,8 @@ const Sidebar = ({ children , userRole }) => {
     "/resetPassword",
   ];
   const shouldExcludeSidebar = excludedRoutes.includes(location.pathname);
+
+  const { schoolId, teacherId } = useParams();
 
   useEffect(() => {
     const token = localStorage.getItem("auth");

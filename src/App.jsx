@@ -17,7 +17,8 @@ import ResetPassword from "./Components/UserLogin/ResetPassword";
 import Home from "./Components/Dashboard/Home";
 import AllCourses from "./Components/Dashboard/AllCourses.jsx";
 import CreateCourse from "./Components/Dashboard/CreateCourse.jsx";
-import CourseBuilder from "./Components/CourseBuilder/CourseBuilder.js";
+// import CourseBuilder from "./Components/CourseBuilder/CourseBuilder.js";
+import CourseBuilder from './Components/CourseBuilderComponents/CourseBuilder/CourseBuilder.jsx'
 import TeacherProfile from "./Components/Profile/TeacherProfile.jsx";
 import PublishCourse from "./Components/PublishCourse/PublishCourse.jsx";
 import PublishCourseDetails from "./Components/PublishCourse/PublishCourseDetails.jsx";
@@ -103,6 +104,7 @@ const App = () => {
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/verify-otp" element={<Otp />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/course-builder" element={<CourseBuilder />} />
           {/* Wrap routes that should have the Sidebar with a Sidebar component */}
           <Route
             path="/*"
@@ -113,7 +115,6 @@ const App = () => {
                   <Route path="/home" element={<Home />} />
                   <Route path="/courses" element={<AllCourses />} />
                   <Route path="/create-course" element={<CreateCourse />} />
-                  <Route path="/course-builder" element={<CourseBuilder />} />
                   <Route path="/teacher-profile" element={<TeacherProfile />} />
                   <Route path="/publish-course" element={<PublishCourse />} />
                   <Route

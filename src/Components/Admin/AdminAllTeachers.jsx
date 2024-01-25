@@ -78,6 +78,7 @@ const AdminAllTeachers = ({ match }) => {
           <table className="content__card-table">
             <tbody>
               <tr>
+                <th className="content__table-col-heading">S.No.</th>
                 <th className="content__table-col-heading">Name</th>
                 <th className="content__table-col-heading">Classes</th>
                 <th className="content__table-col-heading">Subjects</th>
@@ -86,13 +87,14 @@ const AdminAllTeachers = ({ match }) => {
               </tr>
 
               {teachersData &&
-                teachersData.map((teacher) => (
+                teachersData.map((teacher, index) => (
                   <tr
                     key={teacher.user_id}
                     className="content__table"
                     onClick={() => handleRowClick(teacher.user_id)}
                     style={{ cursor: "pointer" }} // Add this style to show the pointer cursor
                   >
+                    <td className="content__table-data">{index + 1}</td>
                     <td className="content__table-data">
                       {teacher.first_name} {teacher.last_name}
                     </td>

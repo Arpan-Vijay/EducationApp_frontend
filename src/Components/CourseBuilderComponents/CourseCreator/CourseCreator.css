@@ -1,0 +1,152 @@
+* {
+    box-sizing: border-box;
+}
+
+.slides_container {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* padding: 1em; */
+}
+
+.draggables_container {
+    width: 15%;
+    /* border-left: 1px solid var(--secondary-color); */
+    /* background-color: #f0f5f9; */
+    padding: 1em;
+}
+
+.slide {
+    height: 100%;
+    overflow: auto;
+    padding: 1em 2em;
+}
+
+.widgets {
+    /* border-bottom: 1px solid var(--secondary-color); */
+    margin: 0;
+    padding: 1em;
+    color: var(--primary-color);
+    line-height: 40x;
+    letter-spacing: 0px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.copy-ql-editor {
+    padding: 12px 15px;
+}
+
+.draggables {
+    /* margin-top: 20px; */
+    display: flex;
+    gap: 1rem;
+    padding: 0.5em;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.single_slide_container {
+    display: flex;
+    width: 100%;
+    gap: 10px
+}
+
+.pagination_addSlide_container {
+    padding: 1em 2em;
+    margin: 0;
+    /* border-top: 1px solid var(--secondary-color); */
+}
+
+.pagination_container {
+    padding: 0.3em;
+    /* border: 1px solid var(--gradient-teal);
+    border-radius: 30px; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: var(--gradient-white); */
+}
+
+.pagination_container nav ul {
+    margin-bottom:0 !important;
+}
+
+.heading_form_top {
+    background-color: white;
+    padding: 10px 10px;
+    padding-top: 0px;
+    padding-left: 0;
+}
+
+.heading_form_top_name {
+    box-sizing: border-box;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 40px;
+    line-height: 145%;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: black;
+    width: 100%;
+}
+
+.text_area {
+    height: fit-content !important;
+    resize: none;
+}
+
+.pagination-color {
+    background-color: var(--blue-primary);
+}
+
+.page-link:hover{
+    background-color: var(--blue-primary) !important;
+}
+
+.add-slide-button {
+    font-weight: 500;
+    padding: 0.3em;
+    border: 1px solid var(--blue-primary);
+    border-radius: 5px;
+    position: relative;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s ease all;
+    cursor: pointer;
+    background: var(--blue-primary);
+}
+
+.add-slide-button:hover {
+    transform: scale(0.9);
+}
+
+.add-question-button{
+    font-weight: 500;
+    padding: 0.3em;
+    border: 1px solid #1F3A5F;
+    border-radius: 5px;
+    position: relative;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s ease all;
+    z-index: 1;
+    cursor: pointer;
+    background: var(--blue-primary);
+}
+
+@media screen and (max-width:600px) {
+
+    .slide {
+        height: 100%;
+        overflow: auto;
+        background-color: #f0f5f9;
+        padding: 0.5em;
+    }
+}
