@@ -15,7 +15,7 @@ const Sidebar = ({ children , userRole }) => {
   ];
   const shouldExcludeSidebar = excludedRoutes.includes(location.pathname);
 
-  const { schoolId, teacherId } = useParams();
+  // const { schoolId, teacherId } = useParams();
 
   useEffect(() => {
     const token = localStorage.getItem("auth");
@@ -85,6 +85,12 @@ const Sidebar = ({ children , userRole }) => {
                   <Link to="/admin/allSchools">
                     <i className="bx bxs-school"></i>
                     <span className="link_name">Schools</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/allMentors">
+                  <i class='bx bxs-graduation'></i>
+                    <span className="link_name">Mentors</span>
                   </Link>
                 </li>
               </>

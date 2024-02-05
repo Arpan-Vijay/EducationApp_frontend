@@ -29,6 +29,9 @@ import AdminAllStudents from "./Components/Admin/AdminAllStudents.jsx";
 import AdminSchoolDetails from "./Components/Admin/AdminSchoolDetails.jsx";
 import AdminTeacherDetails from "./Components/Admin/AdminTeacherDetails.jsx";
 import AdminStudentDetails from "./Components/Admin/AdminStudentDetails.jsx";
+import AdminAllMentors from "./Components/Admin/AdminAllMentors.jsx";
+import AdminAddMentor from "./Components/Admin/AdminAddMentor.jsx";
+// import SidebarTwo from "./Components/Navbars/SidebarTwo.jsx";
 
 const App = () => {
   const [userRole, setUserRole] = useState(null);
@@ -105,6 +108,7 @@ const App = () => {
           <Route path="/verify-otp" element={<Otp />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/course-builder" element={<CourseBuilder />} />
+          {/* <Route path='/sidebarTwo' element={<SidebarTwo/>}/> */}
           {/* Wrap routes that should have the Sidebar with a Sidebar component */}
           <Route
             path="/*"
@@ -167,6 +171,16 @@ const App = () => {
                   <Route
                     path="/admin/add-student/:schoolId"
                     element={<AdminAddStudent />}
+                  />
+
+                  <Route
+                    path="/admin/allMentors"
+                    element={<AdminAllMentors/>}
+                  />
+
+                  <Route
+                    path="/admin/addMentor"
+                    element={<AdminAddMentor/>}
                   />
                 </Routes>
               </Sidebar>

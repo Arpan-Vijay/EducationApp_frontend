@@ -80,8 +80,10 @@ const AdminAllTeachers = ({ match }) => {
               <tr>
                 <th className="content__table-col-heading">S.No.</th>
                 <th className="content__table-col-heading">Name</th>
-                <th className="content__table-col-heading">Classes</th>
-                <th className="content__table-col-heading">Subjects</th>
+                <th className="content__table-col-heading">Email</th>
+                <th className="content__table-col-heading">Birthdate</th>
+                {/* <th className="content__table-col-heading">Classes</th>
+                <th className="content__table-col-heading">Subjects</th> */}
                 <th className="content__table-col-heading">Contact info</th>
                 <th className="content__table-col-heading">SAP ID</th>
               </tr>
@@ -98,14 +100,23 @@ const AdminAllTeachers = ({ match }) => {
                     <td className="content__table-data">
                       {teacher.first_name} {teacher.last_name}
                     </td>
-                    <td
+                    {/* <td
                       className="content__table-data"
                       style={{ letterSpacing: "0.6rem" }}
                     >
                       {teacher.classes_taught}
                     </td>
-                    <td className="content__table-data">
+                    <td 
+                      className="content__table-data"
+                      // style={{ letterSpacing: "0.6rem" }}
+                    >
                       {teacher.subjects_taught}
+                    </td> */}
+                    <td className="content__table-data">
+                      {teacher.email}
+                    </td>
+                    <td className="content__table-data">
+                      {teacher.birthday}
                     </td>
                     <td className="content__table-data">
                       {teacher.contact_number}

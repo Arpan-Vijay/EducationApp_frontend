@@ -56,11 +56,6 @@ const AdminSchoolDetails = () => {
     <section className="publish__course">
       <div className="publish__course-header">
         <h3 className="publish__course-heading h-text">School Information</h3>
-        <div className="buttons">
-          <Link to="/admin/add-school">
-            <button className="cta_button">Add School</button>
-          </Link>
-        </div>
       </div>
 
       <div>

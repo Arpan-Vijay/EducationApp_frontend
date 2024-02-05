@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -27,9 +27,36 @@ const AdminAddTeacher = () => {
     motherName: "",
     emergencyContactName: "",
     emergencyContactNumber: "",
+    classId: "",
+    subjectId: "",
   });
 
   const notify = () => toast.success("Successfully created !!");
+
+  const [classes, setClasses] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+
+  useEffect(() => {
+    const fetchClassesAndSubjects = async () => {
+      try {
+        // Fetch classes
+        const classesResponse = await axios.get(
+          "http://localhost:3001/api/get-classes"
+        );
+        setClasses(classesResponse.data.classes);
+
+        // Fetch subjects
+        const subjectsResponse = await axios.get(
+          "http://localhost:3001/api/get-subjects"
+        );
+        setSubjects(subjectsResponse.data.subjects);
+      } catch (error) {
+        console.error("Error fetching classes and subjects:", error.message);
+      }
+    };
+
+    fetchClassesAndSubjects();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +65,18 @@ const AdminAddTeacher = () => {
       [name]: value,
     }));
   };
+
+  const handleClassesAndSubjectsChange = (e) => {
+    const { value } = e.target;
+    console.log('VALUE', value)
+
+    setFormData((prevData) => ({
+      ...prevData,
+      classId: value,
+      subjectId: value,
+    }));
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +92,7 @@ const AdminAddTeacher = () => {
 
       console.log("Teacher added successfully", response.data);
       notify();
-      navigate(`/admin/allTeachers/${schoolId}`)
+      navigate(`/admin/allTeachers/${schoolId}`);
     } catch (error) {
       console.error("Error adding teacher:", error.message);
     }
@@ -274,18 +313,65 @@ const AdminAddTeacher = () => {
                     </div>
                   </div>
                 </div>
+                <div className="details__school">
+                  <span className="title__heading">School Details</span>
+                  <div className="fields">
+                    <div className="input-field">
+                      <label>Class Name</label>
+                      <select
+                        name="className" // Use the appropriate name
+                        value={formData.className}
+                        onChange={handleClassesAndSubjectsChange}
+                        required
+                      >
+                        <option disabled value="" selected>
+                          Select class
+                        </option>
+                        {classes.map((classItem) => (
+                          <option
+                            key={classItem.class_id}
+                            value={classItem.class_id}
+                          >
+                            {classItem.class_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="input-field">
+                      <label>Subject Name</label>
+                      <select
+                        name="subjectName" // Use the appropriate name
+                        value={formData.subjectName}
+                        onChange={handleClassesAndSubjectsChange}
+                        required
+                      >
+                        <option disabled value="" selected>
+                          Select subject
+                        </option>
+                        {subjects.map((subject) => (
+                          <option
+                            key={subject.subject_id}
+                            value={subject.subject_id}
+                          >
+                            {subject.subject_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
               {/* <Link to={`/admin/allTeachers/${schoolId}`}> */}
-                <div className="flex_right">
-                  <button
-                    type="submit"
-                    className="primary_cta_button"
-                    style={{ width: "20%" }}
-                    onClick={notify}
-                  >
-                    Submit
-                  </button>
-                </div>
+              <div className="flex_right">
+                <button
+                  type="submit"
+                  className="primary_cta_button"
+                  style={{ width: "20%" }}
+                  onClick={notify}
+                >
+                  Submit
+                </button>
+              </div>
               {/* </Link> */}
             </div>
           </div>
@@ -296,4 +382,3 @@ const AdminAddTeacher = () => {
 };
 
 export default AdminAddTeacher;
-

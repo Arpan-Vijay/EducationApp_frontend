@@ -83,7 +83,7 @@ const AdminAllStudents = () => {
                 <th className="content__table-col-heading">Contact Info</th>
                 <th className="content__table-col-heading">SAP ID</th>
                 <th className="content__table-col-heading">Aadhar Card Number</th>
-                <th className="content__table-col-heading">Bank Account Number</th>
+                <th className="content__table-col-heading">Mentors Assigned</th>
               </tr>
               {studentsData &&
                 studentsData.map((student,index) => (
@@ -105,7 +105,7 @@ const AdminAllStudents = () => {
                     </td>
                     <td className="content__table-data">{student.sap_id}</td>
                     <td className="content__table-data">{student.aadhar_card_number}</td>
-                    <td className="content__table-data">{student.account_number}</td>
+                    <td className="content__table-data">{student.mentor_first_name} {student.mentor_last_name}</td>
                   </tr>
                 ))}
             </tbody>

@@ -43,9 +43,6 @@ const CreateCourse = () => {
             (subject) => subject.subject_name === subjectName
           )?.subject_id,
           classId: className,
-          // classId: classOptions.find(
-          //   (classItem) => classItem.class_name === className
-          // )?.class_id,
         },
         {
           headers: {
