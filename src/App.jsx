@@ -18,19 +18,24 @@ import Home from "./Components/Dashboard/Home";
 import AllCourses from "./Components/Dashboard/AllCourses.jsx";
 import CreateCourse from "./Components/Dashboard/CreateCourse.jsx";
 // import CourseBuilder from "./Components/CourseBuilder/CourseBuilder.js";
-import CourseBuilder from './Components/CourseBuilderComponents/CourseBuilder/CourseBuilder.jsx'
+import CourseBuilder from "./Components/CourseBuilderComponents/CourseBuilder/CourseBuilder.jsx";
 import TeacherProfile from "./Components/Profile/TeacherProfile.jsx";
 import PublishCourse from "./Components/PublishCourse/PublishCourse.jsx";
 import PublishCourseDetails from "./Components/PublishCourse/PublishCourseDetails.jsx";
 import { Toaster } from "react-hot-toast";
 import AdminAddSchool from "./Components/Admin/AdminAddSchool.jsx";
 import AdminAllSchools from "./Components/Admin/AdminAllSchools.jsx";
+import AdminEditSchool from "./Components/Admin/AdminEditSchool.jsx";
 import AdminAllStudents from "./Components/Admin/AdminAllStudents.jsx";
 import AdminSchoolDetails from "./Components/Admin/AdminSchoolDetails.jsx";
 import AdminTeacherDetails from "./Components/Admin/AdminTeacherDetails.jsx";
 import AdminStudentDetails from "./Components/Admin/AdminStudentDetails.jsx";
 import AdminAllMentors from "./Components/Admin/AdminAllMentors.jsx";
 import AdminAddMentor from "./Components/Admin/AdminAddMentor.jsx";
+import AdminEditTeacher from "./Components/Admin/AdminEditTeacher.jsx";
+import AdminEditStudent from "./Components/Admin/AdminEditStudent.jsx";
+import AdminMentorDetails from "./Components/Admin/AdminMentorDetails.jsx";
+import AdminEditMentor from "./Components/Admin/AdminEditMentor.jsx";
 // import SidebarTwo from "./Components/Navbars/SidebarTwo.jsx";
 
 const App = () => {
@@ -144,18 +149,28 @@ const App = () => {
                   />
 
                   <Route
+                    path="/admin/edit-school/:schoolId"
+                    element={<AdminEditSchool />}
+                  />
+
+                  <Route
                     path="/admin/allTeachers/:schoolId"
                     element={<AdminAllTeachers />}
                   />
 
                   <Route
                     path="/admin/allTeachers/:schoolId/:userId"
-                    element={<AdminTeacherDetails/>}
+                    element={<AdminTeacherDetails />}
                   />
 
                   <Route
                     path="/admin/add-teacher/:schoolId"
                     element={<AdminAddTeacher />}
+                  />
+
+                  <Route
+                    path="/admin/edit-teacher/:schoolId/:userId"
+                    element={<AdminEditTeacher />}
                   />
 
                   <Route
@@ -174,14 +189,25 @@ const App = () => {
                   />
 
                   <Route
-                    path="/admin/allMentors"
-                    element={<AdminAllMentors/>}
+                    path="/admin/edit-student/:schoolId/:userId"
+                    element={<AdminEditStudent />}
                   />
 
                   <Route
-                    path="/admin/addMentor"
-                    element={<AdminAddMentor/>}
+                    path="/admin/allMentors"
+                    element={<AdminAllMentors />}
                   />
+                  <Route
+                    path="/admin/allMentors/:mentorId"
+                    element={<AdminMentorDetails />}
+                  />
+
+                  <Route
+                    path="/admin/edit-mentor/:mentorId"
+                    element={<AdminEditMentor />}
+                  />
+
+                  <Route path="/admin/addMentor" element={<AdminAddMentor />} />
                 </Routes>
               </Sidebar>
             }

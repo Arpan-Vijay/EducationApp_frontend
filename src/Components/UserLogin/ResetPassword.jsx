@@ -91,17 +91,20 @@ const ResetPassword = () => {
               account.
             </span>
           </div>
-          {/* Error message displayed when passwords do not match */}
-          {!passwordsMatch && confirmPassword && (
-            <div className="error_message">Passwords do not match</div>
-          )}
+          <div className="error">
+            {/* Error message displayed when passwords do not match */}
+            {!passwordsMatch && confirmPassword && (
+              <div className="error_message">Passwords do not match</div>
+            )}
+          </div>
+          <div className="success">
+            {/* Success message displayed when passwords do not match */}
+            {passwordsMatch && confirmPassword && (
+              <div className="reset_success_message">Passwords match</div>
+            )}
+          </div>
 
-          {/* Success message displayed when passwords do not match */}
-          {passwordsMatch && confirmPassword && (
-            <div className="reset_success_message">Passwords match</div>
-          )}
-
-          <div className="form" >
+          <div className="form">
             {/* Input for the new password */}
             <div className="input_form" style={{ width: "75%" }}>
               <input
@@ -116,7 +119,6 @@ const ResetPassword = () => {
               {/* Eye-toggle icon to show/hide the new password */}
               <span
                 className="icon"
-                
                 onClick={() => handleTogglePasswordVisibility("showPassword")}
               >
                 {showPassword ? <BsEyeSlashFill /> : <BsEyeFill />}
@@ -150,7 +152,7 @@ const ResetPassword = () => {
               className="primary_cta_button"
               disabled={isButtonDisabled}
               onClick={handleResetPassword}
-              style={{ width: "60%" }}
+              style={{ width: "50%" }}
             >
               <span>Reset Password</span>
             </button>

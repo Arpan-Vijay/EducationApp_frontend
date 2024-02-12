@@ -9,6 +9,7 @@ const AdminAllTeachers = ({ match }) => {
   const { schoolId } = useParams();
   const [teachersData, setTeachersData] = useState(null);
   const navigate = useNavigate();
+  const [dropdownVisible, setDropdownVisible] = useState(null);
 
   useEffect(() => {
     // Fetch teachers data for the specific school
@@ -22,11 +23,37 @@ const AdminAllTeachers = ({ match }) => {
       });
   }, [schoolId]);
 
-  // Function to handle row click and navigate
-  const handleRowClick = (userId) => {
+  const onViewDetails = (userId) => {
     navigate(`/admin/allTeachers/${schoolId}/${userId}`);
+    setDropdownVisible(null);
   };
 
+  const onEditTeacher = (userId) => {
+    navigate(`/admin/edit-teacher/${schoolId}/${userId}`);
+    setDropdownVisible(null);
+  };
+
+  const onDeleteTeacher = async (userId) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:3001/api/delete-teacher",
+        {
+          data: { schoolId, userId },
+        }
+      );
+
+      console.log(response.data.message);
+
+      // Refresh the teachersData by fetching the updated data
+      axios
+        .get(`http://localhost:3001/api/fetch-teachers/${schoolId}`)
+        .then((res) => setTeachersData(res.data.teachersData || []));
+
+      setDropdownVisible(null);
+    } catch (error) {
+      console.error("Error deleting teacher:", error);
+    }
+  };
   // JSX rendering of the component
   return (
     <section className="publish__course">
@@ -58,10 +85,7 @@ const AdminAllTeachers = ({ match }) => {
           </div>
           <div className="icons">
             <div className="filter-icon">
-              <i className="bx bx-filter-alt "></i>
-            </div>
-            <div className="order-icon">
-              <i className="bx bx-objects-vertical-bottom"></i>
+            <i class='bx bx-trash'></i>
             </div>
           </div>
 
@@ -86,6 +110,7 @@ const AdminAllTeachers = ({ match }) => {
                 <th className="content__table-col-heading">Subjects</th> */}
                 <th className="content__table-col-heading">Contact info</th>
                 <th className="content__table-col-heading">SAP ID</th>
+                <th className="content__table-col-heading"></th>
               </tr>
 
               {teachersData &&
@@ -93,7 +118,7 @@ const AdminAllTeachers = ({ match }) => {
                   <tr
                     key={teacher.user_id}
                     className="content__table"
-                    onClick={() => handleRowClick(teacher.user_id)}
+                    // onClick={() => handleRowClick(teacher.user_id)}
                     style={{ cursor: "pointer" }} // Add this style to show the pointer cursor
                   >
                     <td className="content__table-data">{index + 1}</td>
@@ -112,16 +137,51 @@ const AdminAllTeachers = ({ match }) => {
                     >
                       {teacher.subjects_taught}
                     </td> */}
-                    <td className="content__table-data">
-                      {teacher.email}
-                    </td>
-                    <td className="content__table-data">
-                      {teacher.birthday}
-                    </td>
+                    <td className="content__table-data">{teacher.email}</td>
+                    <td className="content__table-data">{teacher.birthday}</td>
                     <td className="content__table-data">
                       {teacher.contact_number}
                     </td>
                     <td className="content__table-data">{teacher.sap_id}</td>
+                    <td
+                      className="content__table-data"
+                      style={{ fontSize: "1.2rem", position:'relative' }}
+                    >
+                      <div className="dropdown">
+                        <i
+                          className="bx bx-dots-vertical-rounded"
+                          // class='bx bx-checkbox'
+                          onClick={() => setDropdownVisible(index)}
+                        ></i>
+                        {dropdownVisible === index && (
+                          <div className={`dropdown-content ${dropdownVisible === index ? 'show-pop-up' : 'hide-pop-up'}`}>
+                            {/* View option */}
+                            <div
+                              className="dropdown-item"
+                              onClick={() => onViewDetails(teacher.user_id)}
+                            >
+                              View
+                            </div>
+
+                            {/* Edit option */}
+                            <div
+                              className="dropdown-item"
+                              onClick={() => onEditTeacher(teacher.user_id)}
+                            >
+                              Edit
+                            </div>
+
+                            {/* Delete option */}
+                            <div
+                              className="dropdown-item"
+                              onClick={() => onDeleteTeacher(teacher.user_id)}
+                            >
+                              Delete
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))}
             </tbody>

@@ -4,9 +4,9 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import "../../Styles/AdminCreateUsers.css";
 
-const AdminAddTeacher = () => {
-  const { schoolId } = useParams(); // Extract schoolId from URL params
+const AdminEditTeacher = () => {
   const navigate = useNavigate();
+  const { schoolId, userId } = useParams();
 
   const [formData, setFormData] = useState({
     // Initial form state
@@ -31,81 +31,79 @@ const AdminAddTeacher = () => {
     // subjectId: "",
   });
 
-  const notify = () => toast.success("Successfully created !!");
+  useEffect(() => {
+    // Fetch teacher data based on school_id and user_id when component mounts
+    axios
+      .get(
+        `http://localhost:3001/api/fetch-teacher-details/${schoolId}/${userId}`
+      )
+      .then((res) => {
+        const fetchedTeacherDetails = res.data.teacherDetails || {};
+        console.log("Fetched Teacher Data:", fetchedTeacherDetails);
+        const teacher = {
+          schoolId: schoolId,
+          userId: userId,
+          firstName: fetchedTeacherDetails.first_name,
+          middleName: fetchedTeacherDetails.middle_name,
+          lastName: fetchedTeacherDetails.last_name,
+          gender: fetchedTeacherDetails.gender,
+          birthday: fetchedTeacherDetails.birthday,
+          email: fetchedTeacherDetails.email,
+          contactNumber: fetchedTeacherDetails.contact_number,
+          alternativeNumber: fetchedTeacherDetails.alternative_number,
+          aadharCardNumber: fetchedTeacherDetails.aadhar_card_number,
+          panCard: fetchedTeacherDetails.pan_card,
+          permanentAddress: fetchedTeacherDetails.permanent_address,
+          city: fetchedTeacherDetails.city,
+          state: fetchedTeacherDetails.state,
+          fatherName: fetchedTeacherDetails.father_name,
+          motherName: fetchedTeacherDetails.mother_name,
+          emergencyContactName: fetchedTeacherDetails.emergency_contact_name,
+          emergencyContactNumber:
+            fetchedTeacherDetails.emergency_contact_number,
+        };
+        setFormData(teacher);
+      })
+      .catch((error) => {
+        console.error("Error fetching teacher data:", error);
+      });
+  }, [schoolId, userId]);
 
-  // const [classes, setClasses] = useState([]);
-  // const [subjects, setSubjects] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchClassesAndSubjects = async () => {
-  //     try {
-  //       // Fetch classes
-  //       const classesResponse = await axios.get(
-  //         "http://localhost:3001/api/get-classes"
-  //       );
-  //       setClasses(classesResponse.data.classes);
-
-  //       // Fetch subjects
-  //       const subjectsResponse = await axios.get(
-  //         "http://localhost:3001/api/get-subjects"
-  //       );
-  //       setSubjects(subjectsResponse.data.subjects);
-  //     } catch (error) {
-  //       console.error("Error fetching classes and subjects:", error.message);
-  //     }
-  //   };
-
-  //   fetchClassesAndSubjects();
-  // }, []);
+  const notify = () => toast.success("Teacher updated successfully!");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData({ ...formData, [name]: value });
   };
 
-  // const handleClassesAndSubjectsChange = (e) => {
-  //   const { value } = e.target;
-  //   console.log('VALUE', value)
-
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     classId: value,
-  //     subjectId: value,
-  //   }));
-  // };
-
-
-  const handleSubmit = async (e) => {
+  const handleUpdateTeacher = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        `http://localhost:3001/api/add-teacher/${schoolId}`, // Updated endpoint
-        {
-          ...formData,
-          schoolId: schoolId, // Use extracted schoolId
-        }
-      );
+    toast.dismiss();
 
-      console.log("Teacher added successfully", response.data);
-      notify();
-      navigate(`/admin/allTeachers/${schoolId}`);
-    } catch (error) {
-      console.error("Error adding teacher:", error.message);
-    }
+    axios
+      .put("http://localhost:3001/api/update-teacher", formData)
+      .then((response) => {
+        console.log(response.data.message);
+        notify();
+        navigate(`/admin/allTeachers/${schoolId}`);
+      })
+      .catch((error) => {
+        console.error("Error updating teacher:", error);
+        toast.error("Error updating teacher. Please try again.", {
+          duration: 4000,
+        });
+      });
   };
 
   return (
     <section>
       <Toaster />
       <div className="add__teacher-container">
-        <div className="h-text admin__add-school-heading">
-          Create Teacher Profile
+        <div className="h-text admin__edit-school-heading">
+          Update Teacher Information
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleUpdateTeacher}>
           <div className="form">
             <div className="details__personal">
               <div className="details__personal">
@@ -369,7 +367,7 @@ const AdminAddTeacher = () => {
                   style={{ width: "20%" }}
                   onClick={notify}
                 >
-                  Submit
+                  Update Teacher
                 </button>
               </div>
               {/* </Link> */}
@@ -377,8 +375,9 @@ const AdminAddTeacher = () => {
           </div>
         </form>
       </div>
+      <Toaster />
     </section>
   );
 };
 
-export default AdminAddTeacher;
+export default AdminEditTeacher;

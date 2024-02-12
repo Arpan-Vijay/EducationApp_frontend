@@ -7,6 +7,9 @@ const AdminAllSchools = () => {
   const navigate = useNavigate();
   const [schoolData, setSchoolData] = useState([]);
 
+  // State to manage dropdown visibility
+  const [dropdownVisible, setDropdownVisible] = useState(null);
+
   useEffect(() => {
     // Fetch school data when component mounts
     axios
@@ -18,6 +21,43 @@ const AdminAllSchools = () => {
         console.error("Error fetching school data:", error);
       });
   }, []);
+
+  // View school details
+  const onViewDetails = (schoolId) => {
+    navigate(`/admin/allSchools/${schoolId}`);
+    setDropdownVisible(null);
+  };
+
+  // Edit school details
+  const onEditSchool = (schoolId) => {
+    navigate(`/admin/edit-school/${schoolId}`);
+    console.log(`Editing school with ID: ${schoolId}`);
+    setDropdownVisible(null);
+  };
+
+  // Delete school
+  const onDeleteSchool = async (schoolId) => {
+    try {
+      // Send a request to delete the school
+      const response = await axios.delete(
+        "http://localhost:3001/api/delete-school",
+        {
+          data: { schoolId }, // Send schoolId in the request body
+        }
+      );
+
+      console.log(response.data.message);
+
+      // Refresh the schoolData by fetching the updated data
+      axios
+        .get("http://localhost:3001/api/fetch-school-data")
+        .then((res) => setSchoolData(res.data.schoolData || []));
+
+      setDropdownVisible(null);
+    } catch (error) {
+      console.error("Error deleting school:", error);
+    }
+  };
 
   // JSX rendering of the component
   return (
@@ -45,13 +85,11 @@ const AdminAllSchools = () => {
               ></path>
             </svg>
           </div>
+
           <div className="icons">
             <div className="filter-icon">
               <i className="bx bx-filter-alt "></i>
             </div>
-            {/* <div className="order-icon">
-              <i className="bx bx-objects-vertical-bottom"></i>
-            </div> */}
           </div>
           <Link to="/admin/add-school">
             <button className="cta_button">Add School</button>
@@ -66,19 +104,27 @@ const AdminAllSchools = () => {
               <tr>
                 <th className="content__table-col-heading">S.No.</th>
                 <th className="content__table-col-heading">School Name</th>
+                <th className="content__table-col-heading">Principal Name</th>
+                <th className="content__table-col-heading">Contact Number</th>
                 <th className="content__table-col-heading">Teachers Count</th>
                 <th className="content__table-col-heading">Students Count</th>
+                <th
+                  className="content__table-col-heading"
+                  style={{ position: "relative" }}
+                ></th>
               </tr>
               {schoolData.map((school, index) => (
                 <tr
                   key={index}
                   className="content__table"
-                  onClick={() =>
-                    navigate(`/admin/allSchools/${school.school_id}`)
-                  }
+                  // onClick={() =>
+                  //   navigate(`/admin/allSchools/${school.school_id}`)
+                  // }
                 >
                   <td className="content__table-data">{school.school_id}</td>
                   <td className="content__table-data">{school.school_name}</td>
+                  <td className="content__table-data">{school.principal_name}</td>
+                  <td className="content__table-data">{school.contact_number}</td>
                   <td
                     className="content__table-data"
                     style={{ paddingLeft: "2rem" }}
@@ -90,6 +136,45 @@ const AdminAllSchools = () => {
                     style={{ paddingLeft: "2rem" }}
                   >
                     {school.total_students}
+                  </td>
+                  <td
+                    className="content__table-data"
+                    style={{ fontSize: "1.2rem", position:'relative' }}
+                  >
+                    <div className="dropdown">
+                      <i
+                        className="bx bx-dots-vertical-rounded"
+                        onClick={() => setDropdownVisible(index)}
+                      ></i>
+                      {dropdownVisible === index && (
+                        <div className={`dropdown-content ${dropdownVisible === index ? 'show-pop-up' : 'hide-pop-up'}`}>
+                          {/* View option */}
+                          <div
+                            className="dropdown-item"
+                            onClick={() => onViewDetails(school.school_id)}
+                          >
+                            View
+                          </div>
+
+                          {/* Edit option */}
+                          <div
+                            className="dropdown-item"
+                            onClick={() => onEditSchool(school.school_id)}
+                          >
+                            Edit
+                          </div>
+
+                          {/* Delete option */}
+                          <div
+                            className="dropdown-item"
+                            onClick={() => onDeleteSchool(school.school_id)}
+                            // style={{position:'absolute', border:'1px solid black', zIndex: '100'}}
+                          >
+                            Delete
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

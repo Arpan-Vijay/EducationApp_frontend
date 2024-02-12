@@ -179,12 +179,12 @@ const Login = () => {
           // Navigate to home without passing First_Name in the route
           navigate("/home");
         } else {
-          setError("Sap ID or password is incorrect");
+          setError("User Id or password is incorrect");
         }
       })
       .catch((err) => {
         console.error("Login Error:", err); // Log the error for debugging
-        setError("Sap ID or password is incorrect");
+        setError("User Id or password is incorrect");
       });
   };
 
@@ -220,7 +220,9 @@ const Login = () => {
             <img src={schoolLogo} className="profile_img" alt="school Logo" />
           </div>
 
-          {error && <div className="error_message">{error}</div>}
+          <div className="error">
+            {error && <div className="error_message">{error}</div>}
+          </div>
 
           <div className="form" style={{ width: "70%" }}>
             {/* Name input with icon */}
@@ -265,6 +267,7 @@ const Login = () => {
               className="primary_cta_button"
               type="submit"
               onClick={handleLogin}
+              style={{ width: "100%" }}
             >
               Log In
             </button>

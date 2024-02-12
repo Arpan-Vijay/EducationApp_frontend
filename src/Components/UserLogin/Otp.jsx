@@ -79,7 +79,9 @@ const Otp = () => {
           </div>
 
           {/* Display error message if there is an error */}
-          {error && <div className="error_message">{error}</div>}
+          <div className="error">
+            {error && <div className="error_message">{error}</div>}
+          </div>
 
           <div className="form">
             <div className="otp_form">

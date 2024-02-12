@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/PublishCourse.css";
@@ -7,23 +8,50 @@ const AdminAllStudents = () => {
   const { schoolId } = useParams();
   const [studentsData, setStudentsData] = useState(null);
   const navigate = useNavigate();
+  const [dropdownVisible, setDropdownVisible] = useState(null);
 
   useEffect(() => {
-    // fetch-students data for the specific school
+    // Fetch students data for the specific school
     axios
       .get(`http://localhost:3001/api/fetch-students/${schoolId}`)
       .then((response) => {
         setStudentsData(response.data.studentsData);
       })
       .catch((error) => {
-        console.error("Error fetching students:", error);
+        console.error("Error fetching students data:", error);
       });
   }, [schoolId]);
 
-
-  // Function to handle row click and navigate
-  const handleRowClick = (userId) => {
+  const onViewDetails = (userId) => {
     navigate(`/admin/allStudents/${schoolId}/${userId}`);
+    setDropdownVisible(null);
+  };
+
+  const onEditStudent = (userId) => {
+    navigate(`/admin/edit-student/${schoolId}/${userId}`);
+    setDropdownVisible(null);
+  };
+
+  const onDeleteStudent = async (userId) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:3001/api/delete-student",
+        {
+          data: { schoolId, userId },
+        }
+      );
+
+      console.log(response.data.message);
+
+      // Refresh the studentsData by fetching the updated data
+      axios
+        .get(`http://localhost:3001/api/fetch-students/${schoolId}`)
+        .then((res) => setStudentsData(res.data.studentsData || []));
+
+      setDropdownVisible(null);
+    } catch (error) {
+      console.error("Error deleting student:", error);
+    }
   };
 
   // JSX rendering of the component
@@ -84,12 +112,14 @@ const AdminAllStudents = () => {
                 <th className="content__table-col-heading">SAP ID</th>
                 <th className="content__table-col-heading">Aadhar Card Number</th>
                 <th className="content__table-col-heading">Mentors Assigned</th>
+                <th className="content__table-col-heading"></th>
+
               </tr>
               {studentsData &&
                 studentsData.map((student,index) => (
                   <tr
                     className="content__table"
-                    onClick={() => handleRowClick(student.user_id)}
+                    // onClick={() => handleRowClick(student.user_id)}
                     key={student.user_id}
                     style={{ cursor: "pointer" }}
                   >
@@ -106,6 +136,44 @@ const AdminAllStudents = () => {
                     <td className="content__table-data">{student.sap_id}</td>
                     <td className="content__table-data">{student.aadhar_card_number}</td>
                     <td className="content__table-data">{student.mentor_first_name} {student.mentor_last_name}</td>
+                    <td
+                      className="content__table-data"
+                      style={{ fontSize: "1.2rem" , position:'relative'}}
+                    >
+                      <div className="dropdown">
+                        <i
+                          className="bx bx-dots-vertical-rounded"
+                          onClick={() => setDropdownVisible(index)}
+                        ></i>
+                        {dropdownVisible === index && (
+                          <div className={`dropdown-content ${dropdownVisible === index ? 'show-pop-up' : 'hide-pop-up'}`}>
+                            {/* View option */}
+                            <div
+                              className="dropdown-item"
+                              onClick={() => onViewDetails(student.user_id)}
+                            >
+                              View
+                            </div>
+
+                            {/* Edit option */}
+                            <div
+                              className="dropdown-item"
+                              onClick={() => onEditStudent(student.user_id)}
+                            >
+                              Edit
+                            </div>
+
+                            {/* Delete option */}
+                            <div
+                              className="dropdown-item"
+                              onClick={() => onDeleteStudent(student.user_id)}
+                            >
+                              Delete
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))}
             </tbody>

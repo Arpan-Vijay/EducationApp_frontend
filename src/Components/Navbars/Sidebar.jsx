@@ -89,7 +89,7 @@ const Sidebar = ({ children , userRole }) => {
                 </li>
                 <li>
                   <Link to="/admin/allMentors">
-                  <i class='bx bxs-graduation'></i>
+                  <i className='bx bxs-graduation'></i>
                     <span className="link_name">Mentors</span>
                   </Link>
                 </li>

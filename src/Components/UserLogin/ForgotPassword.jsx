@@ -50,14 +50,16 @@ const ForgotPassword = () => {
         <div className="forgot_glass">
           <div className="flex_center">
             <h4 className="heading-text" style={{ color: "black" }}>
-              Forgot Password? 
+              Forgot Password?
             </h4>
             <span className="subheading-text">
               We’ll send a verification code to this email or phone number if it
               matches an existing account.
             </span>
           </div>
-          {error && <div className="error_message">{error}</div>}
+          <div className="error">
+            {error && <div className="error_message">{error}</div>}
+          </div>
           <div className="form">
             {/* Use MdEmail icon here */}
             <div className="input_form" style={{ width: "70%" }}>
@@ -74,7 +76,7 @@ const ForgotPassword = () => {
             <button
               className="primary_cta_button"
               onClick={handleRequestOTP}
-              style={{ width: "50%" }}
+              style={{ width: "30%" }}
             >
               <span>Request OTP</span>
             </button>

@@ -52,10 +52,20 @@ const AdminSchoolDetails = () => {
     return string.replace(/{(\w+)}/g, (match, key) => dataObject[key] || "N/A");
   };
 
+  // Edit school details
+  const onEditSchool = (schoolId) => {
+    navigate(`/admin/edit-school/${schoolId}`);
+    console.log(`Editing school with ID: ${schoolId}`);
+  };
+
   return (
     <section className="publish__course">
       <div className="publish__course-header">
-        <h3 className="publish__course-heading h-text">School Information</h3>
+        <h3 className="publish__course-heading h-text ">School Information</h3>
+        <div className="buttons">
+          <div className="icons"></div>
+            <button className="cta_button" onClick={() => onEditSchool(schoolId)}>Edit School</button>
+        </div>
       </div>
 
       <div>
@@ -174,10 +184,10 @@ const AdminSchoolDetails = () => {
                       </td>
                       <td
                         className="content__table-data"
-                        style={{ textAlign: "right" }}
+                        style={{ textAlign: "right", fontSize: "1.2rem" }}
                       >
                         <i
-                          className="bx bx-edit"
+                          className="bx bx-dots-vertical-rounded"
                           onClick={() =>
                             navigate(`/admin/allTeachers/${schoolId}`)
                           }
@@ -192,10 +202,10 @@ const AdminSchoolDetails = () => {
                       </td>
                       <td
                         className="content__table-data"
-                        style={{ textAlign: "right" }}
+                        style={{ textAlign: "right", fontSize: "1.2rem" }}
                       >
                         <i
-                          className="bx bx-edit"
+                          className="bx bx-dots-vertical-rounded"
                           onClick={() =>
                             navigate(`/admin/allStudents/${schoolId}`)
                           }
