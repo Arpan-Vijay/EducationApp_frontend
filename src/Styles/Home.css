@@ -27,12 +27,13 @@
 .sidebar .logo-details i {
   font-weight: 500;
   font-size: 30px;
-  color: #707070;
+  color: #4f4d4d;
   height: 50px;
   min-width: 78px;
   text-align: center;
   line-height: 50px;
   cursor: pointer;
+  
 }
 
 
@@ -103,7 +104,7 @@
   min-width: 78px;
   text-align: center;
   line-height: 50px;
-  color: #707070;
+  color: #4f4d4d;
   font-size: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -123,7 +124,7 @@
 .sidebar .nav-links li a .link_name {
   font-size: 18px;
   font-weight: 600;
-  color: #707070;
+  color: #4f4d4d;
   transition: all 0.4s ease;
 }
 

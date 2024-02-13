@@ -7,6 +7,9 @@ import avatar from "../../assets/avatar_2.png";
 const AdminTeacherDetails = () => {
   const { schoolId, userId } = useParams();
   const [teacherDetails, setTeacherDetails] = useState(null);
+  const [file,setFile] = useState("")
+  const [newImage, setNewImage] = useState(null);
+
 
   useEffect(() => {
     // Fetch teacher details for the specific school and user
@@ -21,9 +24,80 @@ const AdminTeacherDetails = () => {
         console.error("Error fetching teacher details:", error);
       });
   }, [schoolId, userId]);
+  
+  useEffect(() => {
+    // Fetch teacher image
+    axios
+      .get(`http://localhost:3001/api/retrieve-profile-image/${userId}`)
+      .then((response) => {
+        if (response.data.dataUrl) {
+          setFile(response.data.dataUrl);
+        } else {
+          // Set file to an empty string when the image data is empty
+          setFile("");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching teacher image:", error);
+        // Set file to an empty string when an error occurs
+        setFile("");
+      });
+  }, [schoolId, userId]);
+  
+  
 
   const replacePlaceholders = (string, dataObject) => {
     return string.replace(/{(\w+)}/g, (match, key) => dataObject[key] || "N/A");
+  };
+
+
+  const handleFileChange = (event) => {
+    // Update state with the selected file
+    setNewImage(event.target.files[0]);
+  };
+
+  const handleSaveImage = async () => {
+    if (newImage) {
+      // Prepare form data
+      const formData = new FormData();
+      formData.append("image", newImage);
+
+      try {
+        // Call update-profile-image API
+        const response = await axios.put(
+          `http://localhost:3001/api/update-profile-image/${userId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        // Log success message or handle as needed
+        console.log("Image updated successfully:", response.data);
+
+        // Refresh page or update state if necessary
+        window.location.reload();
+      } catch (error) {
+        console.error("Error updating image:", error);
+        // Handle error as needed
+      }
+    }
+  };
+
+  const handleDeleteImage = () => {
+    // Send request to delete profile image
+    axios
+      .delete(`http://localhost:3001/api/delete-profile-image/${userId}`)
+      .then((response) => {
+        console.log("Image deleted successfully:", response.data.message);
+        // Set file to an empty string after successful deletion
+        setFile("");
+      })
+      .catch((error) => {
+        console.error("Error deleting image:", error);
+      });
   };
 
   return (
@@ -33,10 +107,23 @@ const AdminTeacherDetails = () => {
           <div className="user__info-container">
             <div className="user__info-card-one">
               <div className="user__profile-img">
-                <img src={avatar} alt="" className="image" />
+                <img src = { file || avatar} alt="" className="image" />
+                {/* {renderProfileImage()} */}
               </div>
+              <button className="primary_cta_button" style={{width:'8%', height:'10%'}}  onClick={() => document.getElementById("fileInput").click()}>
+                  Edit
+                </button>
+                <input
+                  type="file"
+                  id="fileInput"
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+                <button className="primary_cta_button" style={{width:'8%', height:'10%'}} onClick={handleSaveImage}>Save</button>
+                <button className="primary_cta_button" style={{width:'8%', height:'10%'}} onClick={handleDeleteImage}>Delete</button>
 
               <div className="user__details">
+              
                 <div className="user__name">
                   <h2 className="h-text">
                     {replacePlaceholders("{first_name}", teacherDetails)}{" "}

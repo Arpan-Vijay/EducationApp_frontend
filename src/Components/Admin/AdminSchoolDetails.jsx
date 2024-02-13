@@ -172,7 +172,7 @@ const AdminSchoolDetails = () => {
                 <table className="content__card-table">
                   <tbody>
                     <tr>
-                      <th className="content__table-col-heading">User</th>
+                      <th className="content__table-col-heading" style={{paddingLeft:'2rem'}}>User</th>
                       <th className="content__table-col-heading">Count</th>
                       <th className="content__table-col-heading"></th>
                     </tr>
@@ -187,11 +187,12 @@ const AdminSchoolDetails = () => {
                         style={{ textAlign: "right", fontSize: "1.2rem" }}
                       >
                         <i
-                          className="bx bx-dots-vertical-rounded"
+                          // className="bx bx-dots-vertical-rounded"
+                          style={{textTransform: 'lowercase', fontStyle:'normal'}}
                           onClick={() =>
                             navigate(`/admin/allTeachers/${schoolId}`)
                           }
-                        ></i>
+                        >View</i>
                       </td>
                     </tr>
 
@@ -205,11 +206,12 @@ const AdminSchoolDetails = () => {
                         style={{ textAlign: "right", fontSize: "1.2rem" }}
                       >
                         <i
-                          className="bx bx-dots-vertical-rounded"
+                          // className="bx bx-dots-vertical-rounded"
+                          style={{textTransform: 'lowercase', fontStyle:'normal'}}
                           onClick={() =>
                             navigate(`/admin/allStudents/${schoolId}`)
                           }
-                        ></i>
+                        >View</i>
                       </td>
                     </tr>
                   </tbody>

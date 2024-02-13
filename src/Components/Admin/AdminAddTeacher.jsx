@@ -7,6 +7,7 @@ import "../../Styles/AdminCreateUsers.css";
 const AdminAddTeacher = () => {
   const { schoolId } = useParams(); // Extract schoolId from URL params
   const navigate = useNavigate();
+  const [file, setFile] = useState(null);
 
   const [formData, setFormData] = useState({
     // Initial form state
@@ -77,21 +78,36 @@ const AdminAddTeacher = () => {
   //   }));
   // };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const newFormData = new FormData();
+    const data = {
+      ...formData,
+      schoolId: schoolId,
+    }
+
+    const stringData = JSON.stringify(data)
+    newFormData.append("TeacherData", stringData)
+    newFormData.append("image", file)
 
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/add-teacher/${schoolId}`, // Updated endpoint
-        {
-          ...formData,
-          schoolId: schoolId, // Use extracted schoolId
-        }
+        `http://localhost:3001/api/add-teacher/${schoolId}`,
+        newFormData,{
+          headers:{
+           'Content-Type':'multipart/form-data'
+          }
+       }
       );
 
       console.log("Teacher added successfully", response.data);
       notify();
+
       navigate(`/admin/allTeachers/${schoolId}`);
     } catch (error) {
       console.error("Error adding teacher:", error.message);
@@ -222,6 +238,14 @@ const AdminAddTeacher = () => {
                       value={formData.panCard}
                       onChange={handleChange}
                       required
+                    />
+                  </div>
+                  <div className="input-field">
+                    <label>Upload Profile Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
                     />
                   </div>
                 </div>
