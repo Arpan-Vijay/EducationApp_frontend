@@ -1,15 +1,18 @@
-// AdminAllTeachers.jsx
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/PublishCourse.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import ModelPopup from "./ModalPopup";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdminAllTeachers = ({ match }) => {
   const { schoolId } = useParams();
   const [teachersData, setTeachersData] = useState(null);
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(null);
+
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [teacherToDelete, setTeacherToDelete] = useState(null);
 
   useEffect(() => {
     // Fetch teachers data for the specific school
@@ -33,17 +36,23 @@ const AdminAllTeachers = ({ match }) => {
     setDropdownVisible(null);
   };
 
+  const onDeleteWithConfirmation = (schoolId) => {
+    setTeacherToDelete(schoolId);
+    setShowDeleteConfirmation(true);
+  };
+
   const onDeleteTeacher = async (userId) => {
     try {
       const response = await axios.delete(
         "http://localhost:3001/api/delete-teacher",
         {
-          data: { schoolId, userId },
+          data: { schoolId, userId: teacherToDelete },
         }
       );
 
       console.log(response.data.message);
-
+      setShowDeleteConfirmation(false);
+      toast.success(" Information deleted successfully!");
       // Refresh the teachersData by fetching the updated data
       axios
         .get(`http://localhost:3001/api/fetch-teachers/${schoolId}`)
@@ -52,8 +61,16 @@ const AdminAllTeachers = ({ match }) => {
       setDropdownVisible(null);
     } catch (error) {
       console.error("Error deleting teacher:", error);
+      toast.error("Error deleting student");
     }
   };
+
+  // Cancel deletion
+  const cancelDelete = () => {
+    setTeacherToDelete(null);
+    setShowDeleteConfirmation(false);
+  };
+
   // JSX rendering of the component
   return (
     <section className="publish__course">
@@ -85,7 +102,7 @@ const AdminAllTeachers = ({ match }) => {
           </div>
           <div className="icons">
             <div className="filter-icon">
-            <i class='bx bx-trash'></i>
+              <i class="bx bx-trash"></i>
             </div>
           </div>
 
@@ -145,7 +162,7 @@ const AdminAllTeachers = ({ match }) => {
                     <td className="content__table-data">{teacher.sap_id}</td>
                     <td
                       className="content__table-data"
-                      style={{ fontSize: "1.2rem", position:'relative' }}
+                      style={{ fontSize: "1.2rem", position: "relative" }}
                     >
                       <div className="dropdown">
                         <i
@@ -154,7 +171,13 @@ const AdminAllTeachers = ({ match }) => {
                           onClick={() => setDropdownVisible(index)}
                         ></i>
                         {dropdownVisible === index && (
-                          <div className={`dropdown-content ${dropdownVisible === index ? 'show-pop-up' : 'hide-pop-up'}`}>
+                          <div
+                            className={`dropdown-content ${
+                              dropdownVisible === index
+                                ? "show-pop-up"
+                                : "hide-pop-up"
+                            }`}
+                          >
                             {/* View option */}
                             <div
                               className="dropdown-item"
@@ -174,10 +197,18 @@ const AdminAllTeachers = ({ match }) => {
                             {/* Delete option */}
                             <div
                               className="dropdown-item"
-                              onClick={() => onDeleteTeacher(teacher.user_id)}
+                              onClick={() =>
+                                onDeleteWithConfirmation(teacher.user_id)
+                              }
                             >
                               Delete
                             </div>
+                            {/* Confirmation modal */}
+                            <ModelPopup
+                              show={showDeleteConfirmation}
+                              onConfirm={onDeleteTeacher}
+                              onCancel={cancelDelete}
+                            />
                           </div>
                         )}
                       </div>

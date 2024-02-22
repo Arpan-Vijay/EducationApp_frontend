@@ -10,6 +10,7 @@ const AdminAddStudent = () => {
 
   // Add a new state variable to store the selected mentor
   const [mentors, setMentors] = useState([]);
+  const [file, setFile] = useState(null);
 
 
   const [formData, setFormData] = useState({
@@ -41,7 +42,7 @@ const AdminAddStudent = () => {
     ifscCode: "",
     accountType: "",
     // mentorName: "",
-    mentorId: "",
+    userId: "",
   });
 
   const notify = () => toast.success("Successfully created !!");
@@ -62,14 +63,13 @@ const AdminAddStudent = () => {
   }, []);
 
 
-
   const handleMentorChange = (e) => {
     const { value } = e.target;
     console.log('VALUE', value)
 
     setFormData((prevData) => ({
       ...prevData,
-      mentorId: value,
+      userId: value,
     }));
   };
 
@@ -81,17 +81,32 @@ const AdminAddStudent = () => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const newFormData = new FormData();
+    const data = {
+      ...formData,
+      schoolId: schoolId,
+    }
+
+    const stringData = JSON.stringify(data)
+    newFormData.append("StudentData", stringData)
+    newFormData.append("image", file)
 
     try {
       console.log('FORMDATA : ', formData)
       const response = await axios.post(
-        `http://localhost:3001/api/add-student/${schoolId}`, // Updated endpoint
-        {
-          ...formData,
-          schoolId: schoolId, // Use extracted schoolId
-        }
+        `http://localhost:3001/api/add-student/${schoolId}`,  newFormData,{
+          headers:{
+           'Content-Type':'multipart/form-data'
+          }
+       }
       );
 
       console.log("Student added successfully", response.data);
@@ -229,22 +244,20 @@ const AdminAddStudent = () => {
                       Select mentor
                     </option>
                     {mentors.map((mentor) => (
-                      <option key={mentor.mentor_id} value={mentor.mentor_id}>
+                      <option key={mentor.user_id} value={mentor.user_id}>
                         {mentor.mentor_name}
                       </option>
                     ))}
                   </select>
                 </div>
-                {/* <div className="input-field">
-                  <label>Upload Picture</label>
-                  <input
-                    type="file"
-                    placeholder="Upload picture"
-                    // name="aadharCardNumber"
-                    // value={formData.aadharCardNumber}
-                    // onChange={handleChange}
-                  />
-                </div> */}
+                <div className="input-field">
+                    <label>Upload Profile Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                    />
+                  </div>
               </div>
               <div className="details__address">
                 <span className="title__heading">Address Details</span>
@@ -456,10 +469,10 @@ const AdminAddStudent = () => {
                 <button
                   type="submit"
                   className="primary_cta_button"
-                  style={{ width: "20%" }}
+                  style={{ width: "max-content" }}
                   onClick={notify}
                 >
-                  Submit
+                  Create Student
                 </button>
               </div>
             </div>

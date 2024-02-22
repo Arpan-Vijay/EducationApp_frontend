@@ -64,7 +64,9 @@ const AdminSchoolDetails = () => {
         <h3 className="publish__course-heading h-text ">School Information</h3>
         <div className="buttons">
           <div className="icons"></div>
-            <button className="cta_button" onClick={() => onEditSchool(schoolId)}>Edit School</button>
+          <button className="cta_button" onClick={() => onEditSchool(schoolId)}>
+            Edit School
+          </button>
         </div>
       </div>
 
@@ -168,11 +170,16 @@ const AdminSchoolDetails = () => {
             </div>
             <div className="publish__course-details">
               <div className="content__card-full-length"></div>
-              <div className="cards">
-                <table className="content__card-table">
-                  <tbody>
+              <div className="cards" id="cards">
+                <table className="content__card-table" id="content__card-table">
+                  <tbody className="tbody">
                     <tr>
-                      <th className="content__table-col-heading" style={{paddingLeft:'2rem'}}>User</th>
+                      <th
+                        className="content__table-col-heading"
+                        style={{ paddingLeft: "2rem" }}
+                      >
+                        User
+                      </th>
                       <th className="content__table-col-heading">Count</th>
                       <th className="content__table-col-heading"></th>
                     </tr>
@@ -188,14 +195,32 @@ const AdminSchoolDetails = () => {
                       >
                         <i
                           // className="bx bx-dots-vertical-rounded"
-                          style={{textTransform: 'lowercase', fontStyle:'normal'}}
+                          style={{
+                            textTransform: "lowercase",
+                            fontStyle: "normal",
+                          }}
                           onClick={() =>
                             navigate(`/admin/allTeachers/${schoolId}`)
                           }
-                        >View</i>
+                        >
+                          View
+                        </i>
                       </td>
                     </tr>
-
+                  </tbody>
+                </table>
+                <table className="content__card-table" id="content__card-table">
+                  <tbody className="tbody">
+                    <tr>
+                      <th
+                        className="content__table-col-heading"
+                        style={{ paddingLeft: "2rem" }}
+                      >
+                        User
+                      </th>
+                      <th className="content__table-col-heading">Count</th>
+                      <th className="content__table-col-heading"></th>
+                    </tr>
                     <tr className="content__table">
                       <td className="content__table-data">Students</td>
                       <td className="content__table-data">
@@ -207,11 +232,16 @@ const AdminSchoolDetails = () => {
                       >
                         <i
                           // className="bx bx-dots-vertical-rounded"
-                          style={{textTransform: 'lowercase', fontStyle:'normal'}}
+                          style={{
+                            textTransform: "lowercase",
+                            fontStyle: "normal",
+                          }}
                           onClick={() =>
                             navigate(`/admin/allStudents/${schoolId}`)
                           }
-                        >View</i>
+                        >
+                          View
+                        </i>
                       </td>
                     </tr>
                   </tbody>

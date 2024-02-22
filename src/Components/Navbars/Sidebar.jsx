@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "../../Styles/Home.css";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
-const Sidebar = ({ children , userRole }) => {
+const Sidebar = ({ children, userRole }) => {
   const [isSidebarClosed, setSidebarClosed] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,15 +21,10 @@ const Sidebar = ({ children , userRole }) => {
     const token = localStorage.getItem("auth");
     if (!token) {
       navigate("/login");
-    } else{
+    } else {
       // decodeToken
     }
   }, [navigate]);
-
-  // const handleArrowClick = (e) => {
-  //   const arrowParent = e.target.parentElement.parentElement;
-  //   arrowParent.classList.toggle("showMenu");
-  // };
 
   const handleSidebarToggle = () => {
     setSidebarClosed(!isSidebarClosed);
@@ -46,7 +41,7 @@ const Sidebar = ({ children , userRole }) => {
           <div className="logo-details">
             <i className="bx bx-menu" onClick={handleSidebarToggle}></i>
             <span className="logo_name">
-              Knowledge<span className="light">Nest</span>
+              Knowledge<span className="light"> Nest</span>
             </span>
           </div>
           <ul className="nav-links">
@@ -54,8 +49,10 @@ const Sidebar = ({ children , userRole }) => {
               <>
                 <li>
                   <Link to="/home">
+                    {/* <div className="navlink"> */}
                     <i className="bx bx-home-alt"></i>
                     <span className="link_name">Home</span>
+                    {/* </div> */}
                   </Link>
                 </li>
                 <li>
@@ -89,7 +86,7 @@ const Sidebar = ({ children , userRole }) => {
                 </li>
                 <li>
                   <Link to="/admin/allMentors">
-                  <i className='bx bxs-graduation'></i>
+                    <i className="bx bxs-graduation"></i>
                     <span className="link_name">Mentors</span>
                   </Link>
                 </li>
@@ -98,7 +95,8 @@ const Sidebar = ({ children , userRole }) => {
             {/* ... (other common links) */}
             <li>
               <Link to="/teacher-profile">
-                <i className="bx bx-info-circle"></i>
+                {/* <i className="bx bx-info-circle"></i> */}
+                <i class='bx bx-user'></i>
                 <span className="link_name">Personal Info</span>
               </Link>
             </li>

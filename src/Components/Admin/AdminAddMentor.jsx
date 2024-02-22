@@ -185,7 +185,7 @@ const AdminAddMentor = () => {
               <button
                 className="primary_cta_button"
                 onClick={handleCreateMentor}
-                style={{ width: "25%" }}
+                style={{ width: "max-content" }}
               >
                 Create Mentor
               </button>

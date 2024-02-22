@@ -390,10 +390,10 @@ const AdminAddTeacher = () => {
                 <button
                   type="submit"
                   className="primary_cta_button"
-                  style={{ width: "20%" }}
+                  style={{ width: "max-content" }}
                   onClick={notify}
                 >
-                  Submit
+                  Create Teacher
                 </button>
               </div>
               {/* </Link> */}

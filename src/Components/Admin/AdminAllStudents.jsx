@@ -1,14 +1,18 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/PublishCourse.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import ModelPopup from "./ModalPopup";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdminAllStudents = () => {
   const { schoolId } = useParams();
   const [studentsData, setStudentsData] = useState(null);
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(null);
+
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState(null);
 
   useEffect(() => {
     // Fetch students data for the specific school
@@ -32,16 +36,23 @@ const AdminAllStudents = () => {
     setDropdownVisible(null);
   };
 
+  const onDeleteWithConfirmation = (schoolId) => {
+    setStudentToDelete(schoolId);
+    setShowDeleteConfirmation(true);
+  };
+
   const onDeleteStudent = async (userId) => {
     try {
       const response = await axios.delete(
         "http://localhost:3001/api/delete-student",
         {
-          data: { schoolId, userId },
+          data: { schoolId, userId: studentToDelete },
         }
       );
 
       console.log(response.data.message);
+      setShowDeleteConfirmation(false);
+      toast.success(" Information deleted successfully!");
 
       // Refresh the studentsData by fetching the updated data
       axios
@@ -51,7 +62,14 @@ const AdminAllStudents = () => {
       setDropdownVisible(null);
     } catch (error) {
       console.error("Error deleting student:", error);
+      toast.error("Error deleting student");
     }
+  };
+
+  // Cancel deletion
+  const cancelDelete = () => {
+    setStudentToDelete(null);
+    setShowDeleteConfirmation(false);
   };
 
   // JSX rendering of the component
@@ -110,13 +128,14 @@ const AdminAllStudents = () => {
                 <th className="content__table-col-heading">Email</th>
                 <th className="content__table-col-heading">Contact Info</th>
                 <th className="content__table-col-heading">SAP ID</th>
-                <th className="content__table-col-heading">Aadhar Card Number</th>
+                <th className="content__table-col-heading">
+                  Aadhar Card Number
+                </th>
                 <th className="content__table-col-heading">Mentors Assigned</th>
                 <th className="content__table-col-heading"></th>
-
               </tr>
               {studentsData &&
-                studentsData.map((student,index) => (
+                studentsData.map((student, index) => (
                   <tr
                     className="content__table"
                     // onClick={() => handleRowClick(student.user_id)}
@@ -127,18 +146,20 @@ const AdminAllStudents = () => {
                     <td className="content__table-data">
                       {student.first_name} {student.last_name}
                     </td>
-                    <td className="content__table-data">
-                      {student.email}
-                    </td>
+                    <td className="content__table-data">{student.email}</td>
                     <td className="content__table-data">
                       {student.contact_number}
                     </td>
                     <td className="content__table-data">{student.sap_id}</td>
-                    <td className="content__table-data">{student.aadhar_card_number}</td>
-                    <td className="content__table-data">{student.mentor_first_name} {student.mentor_last_name}</td>
+                    <td className="content__table-data">
+                      {student.aadhar_card_number}
+                    </td>
+                    <td className="content__table-data">
+                      {student.mentor_first_name} {student.mentor_last_name}
+                    </td>
                     <td
                       className="content__table-data"
-                      style={{ fontSize: "1.2rem" , position:'relative'}}
+                      style={{ fontSize: "1.2rem", position: "relative" }}
                     >
                       <div className="dropdown">
                         <i
@@ -146,7 +167,13 @@ const AdminAllStudents = () => {
                           onClick={() => setDropdownVisible(index)}
                         ></i>
                         {dropdownVisible === index && (
-                          <div className={`dropdown-content ${dropdownVisible === index ? 'show-pop-up' : 'hide-pop-up'}`}>
+                          <div
+                            className={`dropdown-content ${
+                              dropdownVisible === index
+                                ? "show-pop-up"
+                                : "hide-pop-up"
+                            }`}
+                          >
                             {/* View option */}
                             <div
                               className="dropdown-item"
@@ -166,10 +193,18 @@ const AdminAllStudents = () => {
                             {/* Delete option */}
                             <div
                               className="dropdown-item"
-                              onClick={() => onDeleteStudent(student.user_id)}
+                              onClick={() =>
+                                onDeleteWithConfirmation(student.user_id)
+                              }
                             >
                               Delete
                             </div>
+                            {/* Confirmation modal */}
+                            <ModelPopup
+                              show={showDeleteConfirmation}
+                              onConfirm={onDeleteStudent}
+                              onCancel={cancelDelete}
+                            />
                           </div>
                         )}
                       </div>

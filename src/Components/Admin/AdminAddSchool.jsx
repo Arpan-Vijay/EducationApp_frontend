@@ -16,7 +16,7 @@ const AdminAddSchool = () => {
     alternativeNumber: "",
     principalName: "",
     schoolDocumentNumber: "",
-    fundsToDeploy: "",
+    fundsDeployed: "",
   });
 
   const notify = () => toast.success("School created successfully!");
@@ -159,23 +159,23 @@ const AdminAddSchool = () => {
                   required
                 />
               </div>
-              {/* <div className="input-box">
+              <div className="input-box">
                 <span className="details">Funds to deploy</span>
                 <input
                   type="text"
                   placeholder="Ex: 25,000"
-                  name="fundsToDeploy"
-                  value={schoolData.fundsToDeploy}
+                  name="fundsDeployed"
+                  value={schoolData.fundsDeployed}
                   onChange={handleInputChange}
                   required
                 />
-              </div> */}
+              </div>
             </div>
             <div className="flex_right">
             <button
               className="primary_cta_button"
               onClick={handleCreateSchool}
-              style={{width: '25%'}}
+              style={{ width: "max-content" }}
             >
               Create School
             </button>

@@ -5,14 +5,14 @@ import avatar from "../../assets/avatar_2.png";
 // import "../../Styles/AdminMentorDetails.css"; // You can add or customize styles as needed
 
 const AdminMentorDetails = () => {
-  const { mentorId } = useParams();
+  const { userId } = useParams();
   const [mentorDetails, setMentorDetails] = useState(null);
 
   useEffect(() => {
     // Fetch mentor details for the specific mentor
     axios
       .get(
-        `http://localhost:3001/api/fetch-mentor-details/${mentorId}`
+        `http://localhost:3001/api/fetch-mentor-details/${userId}`
       )
       .then((response) => {
         setMentorDetails(response.data.mentorDetails);
@@ -20,7 +20,7 @@ const AdminMentorDetails = () => {
       .catch((error) => {
         console.error("Error fetching mentor details:", error);
       });
-  }, [mentorId]);
+  }, [userId]);
 
   const replacePlaceholders = (string, dataObject) => {
     return string.replace(/{(\w+)}/g, (match, key) => dataObject[key] || "N/A");

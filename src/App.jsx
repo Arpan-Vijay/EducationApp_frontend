@@ -103,7 +103,7 @@ const App = () => {
 
   return (
     <>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -198,12 +198,12 @@ const App = () => {
                     element={<AdminAllMentors />}
                   />
                   <Route
-                    path="/admin/allMentors/:mentorId"
+                    path="/admin/allMentors/:userId"
                     element={<AdminMentorDetails />}
                   />
 
                   <Route
-                    path="/admin/edit-mentor/:mentorId"
+                    path="/admin/edit-mentor/:userId"
                     element={<AdminEditMentor />}
                   />
 

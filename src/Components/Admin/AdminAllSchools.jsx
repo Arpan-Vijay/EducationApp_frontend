@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/PublishCourse.css";
 import { Link, useNavigate } from "react-router-dom";
+import ModelPopup from "./ModalPopup";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdminAllSchools = () => {
   const navigate = useNavigate();
@@ -9,6 +11,9 @@ const AdminAllSchools = () => {
 
   // State to manage dropdown visibility
   const [dropdownVisible, setDropdownVisible] = useState(null);
+
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [schoolToDelete, setSchoolToDelete] = useState(null);
 
   useEffect(() => {
     // Fetch school data when component mounts
@@ -36,27 +41,107 @@ const AdminAllSchools = () => {
   };
 
   // Delete school
-  const onDeleteSchool = async (schoolId) => {
+  // const onDeleteSchool = async (schoolId) => {
+  //   try {
+  //     // Send a request to delete the school
+  //     const response = await axios.delete(
+  //       "http://localhost:3001/api/delete-school",
+  //       {
+  //         data: { schoolId }, // Send schoolId in the request body
+  //       }
+  //     );
+
+  //     console.log(response.data.message);
+
+  //     // Refresh the schoolData by fetching the updated data
+  //     axios
+  //       .get("http://localhost:3001/api/fetch-school-data")
+  //       .then((res) => setSchoolData(res.data.schoolData || []));
+
+  //     setDropdownVisible(null);
+  //   } catch (error) {
+  //     console.error("Error deleting school:", error);
+  //   }
+  // };
+
+  const onDeleteWithConfirmation = (schoolId, totalTeachers, totalStudents) => {
+    if (totalTeachers > 0 || totalStudents > 0) {
+      // Display an error message
+      toast.error("Cannot delete the school. Delete all teachers and students first.");
+    } else {
+      setSchoolToDelete(schoolId);
+      setShowDeleteConfirmation(true);
+    }
+  };
+
+  // // Confirm deletion and send request
+  // const confirmDelete = async () => {
+  //   // Perform deletion logic here (similar to onDeleteSchool)
+  //   try {
+  //     const response = await axios.delete(
+  //       "http://localhost:3001/api/delete-school",
+  //       {
+  //         data: { schoolId: schoolToDelete },
+  //       }
+  //     );
+
+  //     console.log(response.data.message);
+
+  //     // Refresh the schoolData by fetching the updated data
+  //     axios
+  //       .get("http://localhost:3001/api/fetch-school-data")
+  //       .then((res) => setSchoolData(res.data.schoolData || []));
+
+  //     setDropdownVisible(null);
+  //     setShowDeleteConfirmation(false); 
+  //     toast.success(" Information deleted successfully!")
+  //   } catch (error) {
+  //     console.error("Error deleting school:", error);
+  //     toast.error("Error deleting school");
+  //   }
+  // };
+
+  const confirmDelete = async () => {
     try {
-      // Send a request to delete the school
-      const response = await axios.delete(
-        "http://localhost:3001/api/delete-school",
-        {
-          data: { schoolId }, // Send schoolId in the request body
-        }
-      );
-
-      console.log(response.data.message);
-
-      // Refresh the schoolData by fetching the updated data
-      axios
-        .get("http://localhost:3001/api/fetch-school-data")
-        .then((res) => setSchoolData(res.data.schoolData || []));
-
-      setDropdownVisible(null);
+      const schoolToDeleteDetails = schoolData.find((school) => school.school_id === schoolToDelete);
+  
+      if (
+        schoolToDeleteDetails &&
+        schoolToDeleteDetails.total_teachers !== null &&
+        schoolToDeleteDetails.total_students !== null &&
+        parseInt(schoolToDeleteDetails.total_teachers, 10) === 0 &&
+        parseInt(schoolToDeleteDetails.total_students, 10) === 0
+      ) {
+        const response = await axios.delete(
+          "http://localhost:3001/api/delete-school",
+          {
+            data: { schoolId: schoolToDelete },
+          }
+        );
+  
+        console.log(response.data.message);
+  
+        axios
+          .get("http://localhost:3001/api/fetch-school-data")
+          .then((res) => setSchoolData(res.data.schoolData || []));
+  
+        setDropdownVisible(null);
+        setShowDeleteConfirmation(false);
+        toast.success("Information deleted successfully!");
+      } else {
+        toast.error("Cannot delete the school. Delete all teachers and students first.");
+      }
     } catch (error) {
       console.error("Error deleting school:", error);
+      toast.error("Error deleting school");
     }
+  };
+  
+  
+  // Cancel deletion
+  const cancelDelete = () => {
+    setSchoolToDelete(null);
+    setShowDeleteConfirmation(false);
   };
 
   // JSX rendering of the component
@@ -104,7 +189,8 @@ const AdminAllSchools = () => {
               <tr>
                 <th className="content__table-col-heading">S.No.</th>
                 <th className="content__table-col-heading">School Name</th>
-                <th className="content__table-col-heading">Principal Name</th>
+                {/* <th className="content__table-col-heading">Principal Name</th> */}
+                <th className="content__table-col-heading">Funds Deployed</th>
                 <th className="content__table-col-heading">Contact Number</th>
                 <th className="content__table-col-heading">Teachers Count</th>
                 <th className="content__table-col-heading">Students Count</th>
@@ -121,10 +207,15 @@ const AdminAllSchools = () => {
                   //   navigate(`/admin/allSchools/${school.school_id}`)
                   // }
                 >
-                  <td className="content__table-data">{school.school_id}</td>
+                  <td className="content__table-data">{index + 1}</td>
                   <td className="content__table-data">{school.school_name}</td>
-                  <td className="content__table-data">{school.principal_name}</td>
-                  <td className="content__table-data">{school.contact_number}</td>
+                  {/* <td className="content__table-data">{school.principal_name}</td> */}
+                  <td className="content__table-data">
+                    {school.funds_deployed}
+                  </td>
+                  <td className="content__table-data">
+                    {school.contact_number}
+                  </td>
                   <td
                     className="content__table-data"
                     style={{ paddingLeft: "2rem" }}
@@ -139,7 +230,7 @@ const AdminAllSchools = () => {
                   </td>
                   <td
                     className="content__table-data"
-                    style={{ fontSize: "1.2rem", position:'relative' }}
+                    style={{ fontSize: "1.2rem", position: "relative" }}
                   >
                     <div className="dropdown">
                       <i
@@ -147,7 +238,13 @@ const AdminAllSchools = () => {
                         onClick={() => setDropdownVisible(index)}
                       ></i>
                       {dropdownVisible === index && (
-                        <div className={`dropdown-content ${dropdownVisible === index ? 'show-pop-up' : 'hide-pop-up'}`}>
+                        <div
+                          className={`dropdown-content ${
+                            dropdownVisible === index
+                              ? "show-pop-up"
+                              : "hide-pop-up"
+                          }`}
+                        >
                           {/* View option */}
                           <div
                             className="dropdown-item"
@@ -165,13 +262,28 @@ const AdminAllSchools = () => {
                           </div>
 
                           {/* Delete option */}
-                          <div
+                          {/* <div
                             className="dropdown-item"
                             onClick={() => onDeleteSchool(school.school_id)}
                             // style={{position:'absolute', border:'1px solid black', zIndex: '100'}}
                           >
                             Delete
+                          </div> */}
+                          <div
+                            className="dropdown-item"
+                            onClick={() =>
+                              onDeleteWithConfirmation(school.school_id)
+                            }
+                          >
+                            Delete
                           </div>
+
+                          {/* Confirmation modal */}
+                          <ModelPopup
+                            show={showDeleteConfirmation}
+                            onConfirm={confirmDelete}
+                            onCancel={cancelDelete}
+                          />
                         </div>
                       )}
                     </div>

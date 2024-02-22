@@ -6,9 +6,9 @@ import "../../Styles/AdminAddSchool.css";
 
 const AdminEditMentor = () => {
   const navigate = useNavigate();
-  const { mentorId } = useParams();
+  const { userId } = useParams();
   const [mentorData, setMentorData] = useState({
-    mentorId:'',
+    userId:'',
     mentorFirstName: "",
     mentorMiddleName: "",
     mentorLastName: "",
@@ -25,12 +25,12 @@ const AdminEditMentor = () => {
   useEffect(() => {
     // Fetch mentor data based on mentor_id when component mounts
     axios
-      .get(`http://localhost:3001/api/fetch-mentor-details/${mentorId}`)
+      .get(`http://localhost:3001/api/fetch-mentor-details/${userId}`)
       .then((res) => {
         const fetchedMentorDetails = res.data.mentorDetails || {};
         console.log('Fetched Mentor Data:', fetchedMentorDetails);
         const mentor = {
-          mentorId: mentorId,
+          userId: userId,
           mentorFirstName: fetchedMentorDetails.mentor_first_name,
           mentorMiddleName: fetchedMentorDetails.mentor_middle_name,
           mentorLastName: fetchedMentorDetails.mentor_last_name,
@@ -211,7 +211,7 @@ const AdminEditMentor = () => {
               <button
                 className="primary_cta_button"
                 onClick={handleUpdateMentor}
-                style={{ width: "25%" }}
+                style={{ width: "max-content" }}
               >
                 Update Mentor
               </button>

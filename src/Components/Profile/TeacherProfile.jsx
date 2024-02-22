@@ -88,7 +88,7 @@ const TeacherProfile = () => {
             </div>
 
             <div className="user__info-card-two">
-              <div className="card">
+              <div id="card">
                 <div className="card__heading">
                   <h3>General Information</h3>
                 </div>
@@ -150,7 +150,7 @@ const TeacherProfile = () => {
                   </div>
                 </div>
               </div>
-              <div className="card">
+              <div id="card">
                 <div className="card__heading">
                   <h3>Contact Information</h3>
                 </div>

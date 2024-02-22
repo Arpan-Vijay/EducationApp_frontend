@@ -1,202 +1,162 @@
+/* Sidebar Container */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 260px;
-  background: #f6f5ff;
+  background-color: #2d476b;
   z-index: 100;
   transition: all 0.5s ease;
-  color: #1F3A5F;
+  color: #fff;
   font-weight: 500;
   border: none;
   outline: none;
   border-right: 2px solid #ddd;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  /* padding: 10px 14px; */
 }
 .sidebar.close {
   width: 5rem;
+  /* padding: 10px 14px; */
 }
+
+/* Logo and Toggle Button */
 .sidebar .logo-details {
   height: 60px;
-  width: 100%;
+  width: 90%;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
 }
-/* icon */
-
 .sidebar .logo-details i {
   font-weight: 500;
-  font-size: 30px;
-  color: #4f4d4d;
+  font-size: 25px;
+  color: #fff;
   height: 50px;
   min-width: 78px;
   text-align: center;
   line-height: 50px;
   cursor: pointer;
-  
 }
-
-
 .sidebar .logo-details .logo_name {
   font-weight: 500;
-  font-size: 22px;
-  color: #1F3A5F;
+  font-size: 19px;
+  color: #fff;
   font-weight: 600;
   transition: 0.3s ease;
   transition-delay: 0.1s;
 }
-
-.sidebar .logo-details .logo_name .light{
+.sidebar .logo-details .logo_name .light {
   font-weight: 500;
-  font-size: 22px;
-  color: #695cfe;
+  font-size: 19px;
+  color: #a29af8;
   font-weight: 600;
   transition: 0.3s ease;
   transition-delay: 0.1s;
 }
-
-
-
 .sidebar.close .logo-details .logo_name {
   transition-delay: 0s;
   opacity: 0;
   pointer-events: none;
+  width: 80%;
 }
+
+/* Navigation Links Container */
 .sidebar .nav-links {
   font-weight: 500;
   height: 100%;
   padding: 30px 0 150px 0;
   overflow: auto;
+  color: #fff;
 }
 .sidebar.close .nav-links {
   overflow: visible;
 }
-
-
 .sidebar .nav-links::-webkit-scrollbar {
   display: none;
 }
+
+/* Navigation Link Items */
 .sidebar .nav-links li {
   position: relative;
   list-style: none;
   transition: all 0.4s ease;
-}
-.sidebar .nav-links li:hover {
-  background: white;
-  color: white!;
-}
-.sidebar .nav-links li .iocn-link {
+  color: #fff;
+  border-radius: 6px; /* Add border-radius on hover */
+  margin: 0 auto;
+  height: 50px;
+  list-style: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  margin-top: 10px;
+  /* min-width: 80%; In
+  crease width on hover */
 }
 
-.sidebar.close .nav-links li .iocn-link {
-  display: block;
+/* Adjusted styles for hover effect */
+.sidebar .nav-links li:hover {
+  background-color: #fff;
+  color: #11101d;
 }
 
-.sidebar.close .nav-links:hover {
-  color: #fff;
-}
 .sidebar .nav-links li i {
   font-weight: 500;
   height: 50px;
   min-width: 78px;
   text-align: center;
   line-height: 50px;
-  color: #4f4d4d;
+  color: #fff;
   font-size: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.sidebar .nav-links li.showMenu i.arrow {
-  transform: rotate(-180deg);
+
+/* Adjusted styles for hover effect */
+.sidebar .nav-links li:hover i {
+  color: #11101d;
 }
-.sidebar.close .nav-links i.arrow {
-  display: none;
-}
+
 .sidebar .nav-links li a {
   display: flex;
   align-items: center;
   text-decoration: none;
   font-weight: 500;
 }
+
 .sidebar .nav-links li a .link_name {
-  font-size: 18px;
-  font-weight: 600;
-  color: #4f4d4d;
-  transition: all 0.4s ease;
-}
-
-.sidebar .nav-links li a:hover {
+  font-weight: 400;
   color: #fff;
+  transition: all 0.4s ease;
+  font-size: 19px
 }
+
+/* Adjusted styles for hover effect */
+.sidebar .nav-links li:hover a .link_name {
+  color: #11101d;
+}
+
+.sidebar.close .nav-links li {
+  margin: 0 auto;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+/* Hide text when sidebar is closed */
 .sidebar.close .nav-links li a .link_name {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.one {
-  width: 80%;
-  margin-left: 10%;
-  background-color: rgba(255, 255, 255, 0.85);
-  height: 400px;
-}
-
-.sidebar .profile-details {
-  position: fixed;
-  bottom: 0;
-  width: 260px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #f6f5ff;
-  padding: 12px 0;
-  transition: all 0.5s ease;
-}
-.sidebar.close .profile-details {
-  background: none;
-}
-.sidebar.close .profile-details {
-  width: 78px;
-}
-.sidebar .profile-details .profile-content {
-  display: flex;
-  align-items: center;
-}
-.sidebar .profile-details img {
-  height: 52px;
-  width: 52px;
-  object-fit: cover;
-  border-radius: 16px;
-  margin: 0 14px 0 12px;
-  background: #e4e9f7;
-  transition: all 0.5s ease;
-}
-.sidebar.close .profile-details img {
-  padding: 10px;
-}
-.sidebar .profile-details .profile_name,
-.sidebar .profile-details .job {
-  color: #e4e9f7;
-  font-size: 18px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-.sidebar.close .profile-details i,
-.sidebar.close .profile-details .profile_name,
-.sidebar.close .profile-details .job {
   display: none;
 }
-.sidebar .profile-details .job {
-  font-size: 12px;
+
+/* Adjusted styles for hover effect when sidebar is closed */
+.sidebar.close .nav-links li:hover i {
+  color: #11101d; /* Change icon color on hover when sidebar is closed */
 }
 
-
-
+/* Main Content Section */
 .home-section {
   position: relative;
-  /* background: #f6f5ff; */
   background: rgba(255, 255, 255, 0.85);
   height: 100vh;
   left: 260px;
@@ -225,6 +185,66 @@
   font-size: 26px;
   font-weight: 600;
 }
+
+/*
+****Parent Element ITEMS IN A ROW************************************************/
+
+.admin__home{
+  /* background: url('../assets/Background.png'); */
+  height: 100vh;
+  width: 100%;
+  background-repeat: no-repeat;
+
+}
+
+.flexcontainer {
+	padding: 1rem;
+	min-height: 90%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+  display: flex;
+}
+
+
+/*Child Element*/
+
+.flexcontainer>.home__school-container {
+ height: max-content;
+ width: 400px;
+ border: 2px solid #1f3a5f;
+ border-radius: 6px;
+ margin: 1rem;
+}
+
+.home__school-container .info-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  /* margin: auto auto; */
+  padding-bottom: 0.2rem;
+}
+
+
+.p-text{
+  font-weight: 500;
+  color: #2d476b;
+  font-size: 1.1rem;
+}
+
+.text{
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+.home__school-container:hover{
+  cursor: pointer;
+  background-color: #e4e9f7;
+}
+
+
 @media (max-width: 420px) {
   .sidebar.close .nav-links li .sub-menu {
     display: none;

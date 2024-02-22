@@ -481,8 +481,7 @@ const AdminEditStudent = () => {
                 <button
                   type="submit"
                   className="primary_cta_button"
-                  style={{ width: "20%" }}
-                  onClick={notify}
+                  style={{ width: "max-content" }}                  onClick={notify}
                 >
                   Update Student
                 </button>
