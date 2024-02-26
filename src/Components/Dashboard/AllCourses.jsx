@@ -2,27 +2,28 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/PublishCourse.css";
 import { Link, useNavigate } from "react-router-dom";
-// import ModelPopup from "./ModalPopup";
-import toast, { Toaster } from "react-hot-toast";
+import { FaEdit } from "react-icons/fa";
+// import ModalPopup from "../Admin/ModalPopup";
+import CourseDeleteModal from "./CourseDeleteModal";
+
 import { FiEye } from "react-icons/fi";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 
 const AllCourses = () => {
-  const navigate = useNavigate();
   const [userCourses, setUserCourses] = useState([]);
+  const [showPopUp, setShowPopUp] = useState();
+  const [showDeleteModal, setShowDeleteModal] = useState({
+    state: false,
+    courseId: null,
+  });
 
-  // State to manage dropdown visibility
-  const [dropdownVisible, setDropdownVisible] = useState(null);
-
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [schoolToDelete, setSchoolToDelete] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     try {
       // Retrieve the JWT token from localStorage
       const userId = localStorage.getItem("auth");
-
+      //we can send only the userId
       if (userId) {
         axios
           .post("http://localhost:3001/api/fetch-user-data", {
@@ -30,6 +31,7 @@ const AllCourses = () => {
           })
           .then((res) => {
             setUserCourses(res.data.userData || []);
+            console.log(res.data.userData);
           })
           .catch((error) => {
             console.error("Error fetching user courses:", error);
@@ -40,57 +42,104 @@ const AllCourses = () => {
     }
   }, []); // Empty dependency array to trigger the effect once on mount
 
+  // useEffect(()=>{
+  //   document.addEventListener('click' , ()=>{
+  //     console.log('clicked')
+  //     setShowPopUp('');
+  //   })
+
+  //   return ()=>{
+  //     document.removeEventListener('click',(e)=>{
+
+  //       console.log("removed");
+  //     })
+  //   }
+  // },[])
   // JSX rendering of the component
+  function deleteCourse(courseId) {
+    axios
+      .delete("http://localhost:3001/api/delete-course", {
+        data: {
+          courseId: courseId,
+        },
+      })
+      .then((response) => {
+        if (response.data.status === "success") {
+          setUserCourses((userCourses) => {
+            const newUserCourses = userCourses.filter(
+              (userCourse) => userCourse.course_id !== courseId
+            );
+            return newUserCourses;
+          });
+        }
+      });
+  }
+
+  function handleDelete(courseId) {
+    setShowDeleteModal({ state: true, courseId: courseId });
+  }
+
+  function handleCloseDeleteModal() {
+    setShowDeleteModal({ state: false, courseId: null });
+  }
   return (
-    <section className="section__padding">
-      <div className="dashboard__header">
-        <h2 className="heading-text">All Courses</h2>
-        <div>
-          <div className="buttons">
-            <div class="searchbar">
-              <div class="searchbar-wrapper">
-                <div class="searchbar-left">
-                  <div class="search-icon-wrapper">
-                    <span class="search-icon searchbar-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                      </svg>
-                    </span>
+    <>
+      <CourseDeleteModal
+        showDeleteModal={showDeleteModal}
+        handleCloseDeleteModal={handleCloseDeleteModal}
+        deleteCourse={deleteCourse}
+      />
+      <section className="section__padding">
+        <div className="dashboard__header">
+          <h2 className="heading-text">All Courses</h2>
+          <div>
+            <div className="buttons">
+              <div class="searchbar">
+                <div class="searchbar-wrapper">
+                  <div class="searchbar-left">
+                    <div class="search-icon-wrapper">
+                      <span class="search-icon searchbar-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="searchbar-center">
+                    <div class="searchbar-input-spacer"></div>
+
+                    <input
+                      type="text"
+                      class="searchbar-input"
+                      maxlength="2048"
+                      name="q"
+                      autocapitalize="off"
+                      // autocomplete="off"
+                      title="Search"
+                      // role="combobox"
+                      placeholder="Search by subject"
+                    />
                   </div>
                 </div>
-
-                <div class="searchbar-center">
-                  <div class="searchbar-input-spacer"></div>
-
-                  <input
-                    type="text"
-                    class="searchbar-input"
-                    maxlength="2048"
-                    name="q"
-                    autocapitalize="off"
-                    // autocomplete="off"
-                    title="Search"
-                    // role="combobox"
-                    placeholder="Search by subject"
-                  />
-                </div>
               </div>
-            </div>
 
-            <Link to="/create-course">
-              <button class="cta__button" style={{width:'155px'}}>
-                <i class="bx bx-plus icon__text"></i>
-                <p class="button__text">Create Course</p>
-              </button>
-            </Link>
+              <Link to="/create-course">
+                <button class="cta__button" style={{ width: "155px" }}>
+                  <i class="bx bx-plus icon__text"></i>
+                  <p class="button__text">Create Course</p>
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="dashboard__table">
-        <div className="content__card-full-length cards">
+
+        <div className="dashboard__table">
+          <div className="content__card-full-length cards"></div>
+
           <table>
             <thead>
               <tr className="table__headers">
@@ -104,67 +153,72 @@ const AllCourses = () => {
             </thead>
             <tbody>
               {userCourses.map((course, index) => (
-                <tr key={index} className="table__columns">
+                <tr
+                  key={index}
+                  className="table__columns"
+                  onClick={(e) => {
+                    console.log("course.course_id", course.course_id);
+                    navigate(`/preview/${course.course_id}`);
+                  }}
+                >
                   <td>{index + 1}</td>
                   <td>{course.subject_name}</td>
                   <td>{course.course_name}</td>
-                  <td>
-                    {course.total_chapters}
-                  </td>
+                  <td>{course.total_chapters}</td>
                   <td>{course.status}</td>
-                  <td style={{ fontSize: "1.2rem", position: "relative" }}>
-                    <div>
-                      <i
-                        className="bx bx-dots-horizontal-rounded"
-                        id="dot"
-                        onClick={() => setDropdownVisible(index)}
-                      ></i>
-                      {dropdownVisible === index && (
-                        <div
-                          className={`dropdown-content ${
-                            dropdownVisible === index
-                              ? "show-pop-up"
-                              : "hide-pop-up"
-                          }`}
-                        >
-                          {/* View option */}
+                  <td
+                    style={{ fontSize: "1.2rem", position: "relative" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowPopUp((showPopUp) => {
+                        if (showPopUp) {
+                          return "";
+                        } else {
+                          return course.course_id;
+                        }
+                      });
+                    }}
+                  >
+                    <i className="bx bx-dots-horizontal-rounded" id="dot"></i>
+                    <div
+                      className={`${
+                        showPopUp === course.course_id
+                          ? "show-pop-up"
+                          : "hide-pop-up"
+                      }`}
+                    >
+                      {/* View button */}
+                      <button
+                        className="dropdown-item secondary--cta__button"
+                        onClick={(e) => {
+                          navigate(`/preview/${course.course_id}`);
+                        }}
+                      >
+                        <FiEye class="bx bx-plus secondary--icon__text" />
+                        <p class="secondary--button__text">View</p>
+                      </button>
 
-                          <button
-                            className="dropdown-item secondary--cta__button"
-                            // onClick={() => onViewDetails(school.school_id)}
-                          >
-                            <FiEye class="bx bx-plus secondary--icon__text" />
-                            <p class="secondary--button__text">View</p>
-                          </button>
+                      <button
+                        className="dropdown-item secondary--cta__button"
+                        onClick={(e) => {
+                          navigate(`/course-builder/${course.course_id}`);
+                        }}
+                      >
+                        <MdOutlineModeEdit class="bx bx-plus secondary--icon__text" />
+                        <p class="secondary--button__text">Edit</p>
+                      </button>
 
-                          {/* Edit option */}
+                      {/* Delete Button */}
 
-                          <button
-                            className="dropdown-item secondary--cta__button"
-                            // onClick={() => onEditSchool(school.school_id)}
-                          >
-                            <MdOutlineModeEdit class="bx bx-plus secondary--icon__text" />
-                            <p class="secondary--button__text">Edit</p>
-                          </button>
-
-                          <button
-                            className="dropdown-item secondary--cta__button"
-                            // onClick={() =>
-                            //   onDeleteWithConfirmation(school.school_id)
-                            // }
-                          >
-                            <MdDeleteOutline class="bx bx-plus secondary--icon__text" />
-                            <p class="secondary--button__text">Delete</p>
-                          </button>
-
-                          {/* Confirmation modal */}
-                          {/* <ModelPopup
-                            show={showDeleteConfirmation}
-                            onConfirm={confirmDelete}
-                            onCancel={cancelDelete}
-                          /> */}
-                        </div>
-                      )}
+                      <button
+                        className="dropdown-item secondary--cta__button"
+                        onClick={() => {
+                          handleDelete(course.course_id);
+                        }}
+                      >
+                        <MdDeleteOutline class="bx bx-plus secondary--icon__text" />
+                        <p class="secondary--button__text">Delete</p>
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -172,80 +226,9 @@ const AllCourses = () => {
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
 export default AllCourses;
-
-// <section className="publish__course">
-//   <div className="publish__course-header">
-//     <h3 className="publish__course-heading h-text ">Courses</h3>
-
-//     <div className="buttons">
-//       <div class="container-input">
-//         <input
-//           type="text"
-//           placeholder="Search"
-//           name="text"
-//           class="search-input"
-//         />
-//         <svg
-//           fill="#000000"
-//           width="20px"
-//           height="20px"
-//           viewBox="0 0 1920 1920"
-//           xmlns="http://www.w3.org/2000/svg"
-//         >
-//           <path
-//             d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z"
-//             fill-rule="evenodd"
-//           ></path>
-//         </svg>
-//       </div>
-//       <div className="icons">
-//         <div className="filter-icon">
-//           <i class="bx bx-filter-alt "></i>
-//         </div>
-//         <div className="order-icon">
-//           <i class="bx bx-objects-vertical-bottom"></i>
-//         </div>
-//       </div>
-
-//         <Link to="/create-course"> <button className="cta_button">Create Course</button></Link>
-
-//     </div>
-//   </div>
-
-//   <div className="publish__course-details">
-//     <div className="content__card-full-length"></div>
-//     <div className="cards">
-//       <table className="content__card-table">
-//         <tbody>
-//           <tr>
-//             <th className="content__table-col-heading">S.No.</th>
-//             <th className="content__table-col-heading">Subject</th>
-//             <th className="content__table-col-heading">Course Name</th>
-//             <th className="content__table-col-heading">Total Chapters</th>
-//             <th className="content__table-col-heading">Status</th>
-//             <th className="content__table-col-heading"></th>
-//           </tr>
-//           {userCourses.map((course, index) => (
-//             <tr key={index} className="content__table">
-//               <td className="content__table-data">{index + 1}</td>
-//               <td className="content__table-data">{course.subject_name}</td>
-//               <td className="content__table-data">{course.course_name}</td>
-//               <td className="content__table-data">
-//                 {course.total_chapters}
-//               </td>
-//               <td className="content__table-data">{course.status}</td>
-//               <td className="content__table-data" ><FaEdit /></td>
-
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   </div>
-// </section>

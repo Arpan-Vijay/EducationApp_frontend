@@ -12,6 +12,7 @@ const CreateCourse = () => {
   const [classOptions, setClassOptions] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
 
+
   const notify = () => toast.success("Course successfully created !!"); 
   const navigate = useNavigate();
 
@@ -43,21 +44,23 @@ const CreateCourse = () => {
             (subject) => subject.subject_name === subjectName
           )?.subject_id,
           classId: className,
+          // classId: classOptions.find(
+          //   (classItem) => classItem.class_name === className
+          // )?.class_id,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-
+      ); 
       // Handle the success response as needed
       console.log(response.data);
+      localStorage.setItem('courseId' , response.data.courseId );
       notify(); 
 
       // Redirect to '/courses' after successful creation
-      navigate("/courses");
-
+      navigate(`/course-builder/${response.data.courseId}`);
       // Add additional logic if required, such as redirecting to another page
     } catch (error) {
       // Handle the error response

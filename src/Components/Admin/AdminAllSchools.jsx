@@ -213,7 +213,9 @@ const AdminAllSchools = () => {
                             <MdOutlineModeEdit class="bx bx-plus secondary--icon__text" />
                             <p class="secondary--button__text">Edit</p>
                           </button>
-
+                          
+                             
+                          {/* Delete Button */}
                           <button
                             className="dropdown-item secondary--cta__button"
                             onClick={() =>

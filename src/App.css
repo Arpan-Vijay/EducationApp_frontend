@@ -427,6 +427,7 @@
   transition: 400ms;
   /* border: 3px solid #d3e9f6; */
   background-color: #0069d9;
+  color: #fff;
 }
 
 .icon__text {
