@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import "../../Styles/AdminCreateUsers.css";
+import { MdOutlineModeEdit } from "react-icons/md";
+
 
 const AdminEditTeacher = () => {
   const navigate = useNavigate();
@@ -97,14 +99,25 @@ const AdminEditTeacher = () => {
   };
 
   return (
-    <section>
+    <section className="section__padding">
       <Toaster />
       <div className="add__teacher-container">
-        <div className="h-text admin__edit-school-heading">
-          Update Teacher Information
+      <div className="dashboard__header">
+        <h2 className="heading-text">Update Teacher Information</h2>
+        <div>
+          <div className="buttons">
+            
+              <button class="cta__button" onClick={handleUpdateTeacher} style={{width:'170px'}}
+              >
+                <MdOutlineModeEdit className="icon__text"/>
+                <p class="button__text">Update Teacher</p>
+              </button>
+            
+          </div>
         </div>
-        <form onSubmit={handleUpdateTeacher}>
-          <div className="form">
+      </div>
+        <form action="#">
+          <div className="content">
             <div className="details__personal">
               <div className="details__personal">
                 <span className="title__heading">Personal Details</span>
@@ -360,22 +373,21 @@ const AdminEditTeacher = () => {
                 </div> */}
               </div>
               {/* <Link to={`/admin/allTeachers/${schoolId}`}> */}
-              <div className="flex_right">
+              {/* <div className="flex_right">
                 <button
                   type="submit"
                   className="primary_cta_button"
                   style={{ width: "max-content" }}
                   onClick={notify}
                 >
-                  Update Teacher
+                  Create Teacher
                 </button>
-              </div>
+              </div> */}
               {/* </Link> */}
             </div>
           </div>
         </form>
       </div>
-      <Toaster />
     </section>
   );
 };

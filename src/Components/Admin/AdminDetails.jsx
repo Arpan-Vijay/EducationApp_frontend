@@ -7,7 +7,7 @@ import avatar from "../../assets/avatar_2.png";
 import toast, { Toaster } from "react-hot-toast";
 import { MdOutlineModeEdit } from "react-icons/md";
 
-const TeacherProfile = () => {
+const AdminDetails = () => {
     const { userId } = useParams();
   const [decodedToken, setDecodedToken] = useState(null);
   const navigate = useNavigate();
@@ -117,8 +117,8 @@ const TeacherProfile = () => {
     { columnName: "City", columnKey: "city" },
     { columnName: "State", columnKey: "state" },
     {
-      columnName: "Alternative Contact Number",
-      columnKey: "alternative_contact_number",
+      columnName: "Alternative Mobile Number",
+      columnKey: "alternative_number",
     },
     { columnName: "Permanent Address", columnKey: "permanent_address" },
     { columnName: "City", columnKey: "city" },
@@ -147,24 +147,53 @@ const TeacherProfile = () => {
             <div className="profile__container">
               <div className="image__container">
                 <img src={file || avatar} className="image" />
-                
+                <div className="dropdown">
+                  <div
+                    className="edit"
+                    onClick={() => setDropdownVisible(!dropdownVisible)}
+                  >
+                    <i className="bx bx-edit" id="text"></i>
+                    {/* <span className="text">edit</span> */}
+                  </div>
+                  {dropdownVisible && (
+                    <div
+                      className={`dropdown-content ${
+                        dropdownVisible ? "showup" : "hide-pop-up"
+                      }`}
+                    >
+                      {/* Edit option */}
+                      <div
+                        className="dropdown-item"
+                        onClick={() => handleEditClick()}
+                      >
+                        Edit
+                        <input
+                          type="file"
+                          id="fileInput"
+                          style={{ display: "none" }}
+                          onChange={handleFileChange}
+                        />
+                      </div>
+
+                      {/* Delete option */}
+                      <div
+                        className="dropdown-item"
+                        onClick={() => handleDeleteImage()}
+                      >
+                        Delete
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="user__information">
-            <h5>
-              {replacePlaceholders("{first_name}", decodedToken)}{" "}
-              {replacePlaceholders("{last_name}", decodedToken)}
-            </h5>
-            <h5>
-              {" "}
-              {replacePlaceholders(
-                "School Name - {school_name}",
-                decodedToken
-              )}
-            </h5>
-            <h5>{replacePlaceholders("SAP ID - {sap_id}", decodedToken)}</h5>
-            <h5>Role - Teacher</h5>
-          </div>
+              <div className="user__information" style={{ width: "20%" }}>
+                <h5>
+                  {replacePlaceholders("{first_name}", decodedToken)}{" "}
+                  {replacePlaceholders("{last_name}", decodedToken)}
+                </h5>
+                <h5>Role - Admin</h5>
+              </div>
             </div>
 
             <div className="user__information--container">
@@ -219,16 +248,16 @@ const TeacherProfile = () => {
                     <div className="flex__row">
                       <h5 className="column-heading">Birthdate</h5>
                       <span className="column-detail">
-                        {replacePlaceholders("{birthday}", decodedToken)}
+                        {replacePlaceholders("{birthdate}", decodedToken)}
                       </span>
                     </div>
                   </div>
 
                   <div>
                     <div className="flex__row">
-                      <h5 className="column-heading">Pancard</h5>
+                      <h5 className="column-heading">Aadhar Card</h5>
                       <span className="column-detail">
-                        {replacePlaceholders("{pan_card}", decodedToken)}
+                        {replacePlaceholders("{aadhar_card}", decodedToken)}
                       </span>
                     </div>
                   </div>
@@ -309,4 +338,4 @@ const TeacherProfile = () => {
   );
 };
 
-export default TeacherProfile;
+export default AdminDetails;

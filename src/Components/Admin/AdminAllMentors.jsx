@@ -3,6 +3,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import ModelPopup from "./ModalPopup";
 import toast, { Toaster } from "react-hot-toast";
+import { FiEye } from "react-icons/fi";
+import { MdOutlineModeEdit } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 
 
 const AdminAllMentors = () => {
@@ -79,72 +82,91 @@ const AdminAllMentors = () => {
     };
 
   return (
-    <section className="publish__course">
-      <div className="publish__course-header">
-        <h3 className="publish__course-heading h-text ">Mentors Information</h3>
-        <div className="buttons">
-          <div className="container-input">
-            <input
-              type="text"
-              placeholder="Search"
-              name="text"
-              className="search-input"
-            />
-            <svg
-              fill="#000000"
-              width="20px"
-              height="20px"
-              viewBox="0 0 1920 1920"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-               <path
-                d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z"
-                fillRule="evenodd"
-              ></path>
-            </svg>
-          </div>
-          <div className="icons">
-            <div className="filter-icon">
-              <i className="bx bx-filter-alt "></i>
+    <section className="section__padding">
+      <div className="dashboard__header">
+        <h2 className="heading-text">Mentors Information</h2>
+        <div>
+          <div className="buttons">
+            <div class="searchbar">
+              <div class="searchbar-wrapper">
+                <div class="searchbar-left">
+                  <div class="search-icon-wrapper">
+                    <span class="search-icon searchbar-icon">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="searchbar-center">
+                  <div class="searchbar-input-spacer"></div>
+
+                  <input
+                    type="text"
+                    class="searchbar-input"
+                    maxlength="2048"
+                    name="q"
+                    autocapitalize="off"
+                    // autocomplete="off"
+                    title="Search"
+                    // role="combobox"
+                    placeholder="Search by school"
+                  />
+                </div>
+              </div>
             </div>
+
+            <Link to={`/admin/addMentor`}>
+              <button class="cta__button">
+                <i class="bx bx-plus icon__text"></i>
+                <p class="button__text">Add Mentor</p>
+              </button>
+            </Link>
           </div>
-          <Link to="/admin/addMentor">
-            <button className="cta_button">Add Mentor</button>
-          </Link>
         </div>
       </div>
-      <div className="publish__course-details">
+      <div className="dashboard__table">
         {/* ... Same as before ... */}
-        <div className="content__card-full-length"></div>
-        <div className="cards">
-          <table className="content__card-table">
-            <tbody>
-              <tr>
-                <th className="content__table-col-heading">S.No.</th>
-                <th className="content__table-col-heading">Mentor Name</th>
-                <th className="content__table-col-heading">Email</th>
-                <th className="content__table-col-heading">Contact Number</th>
-                <th className="content__table-col-heading">Aadhar Card</th>
-                <th className="content__table-col-heading"></th>
+        <div className="content__card-full-length cards"></div>
+        
+          <table>
+            <thead>
+
+              <tr className="table__headers"> 
+                <th>S.No.</th>
+                <th>Mentor Name</th>
+                <th>Email</th>
+                <th>Birthdate</th>
+                <th>Contact Number</th>
+                <th>Aadhar Card</th>
+                <th></th>
               </tr>
+            </thead>
+            <tbody>
               {mentorsData.map((mentor, index) => (
-                <tr key={index} className="content__table">
-                  <td className="content__table-data">{index + 1}</td>
-                  <td className="content__table-data">
+                <tr key={index} className="table__columns">
+                  <td>{index + 1}</td>
+                  <td>
                     {mentor.mentor_first_name} {mentor.mentor_last_name}
                   </td>
-                  <td className="content__table-data">{mentor.email}</td>
-                  <td className="content__table-data">
+                  <td>{mentor.email}</td>
+                  <td>{mentor.birthdate}</td>
+                  <td>
                     {mentor.contact_number}
                   </td>
-                  <td className="content__table-data">{mentor.aadhar_card}</td>
+                  <td>{mentor.aadhar_card}</td>
                   <td
-                    className="content__table-data"
+                  
                     style={{ fontSize: "1.2rem", position: "relative" }}
                   >
                     <div className="dropdown">
                       <i
-                        className="bx bx-dots-vertical-rounded"
+                        className="bx bx-dots-horizontal-rounded"
+                        id="dot"
                         onClick={() => setDropdownVisible(index)}
                       ></i>
                       {dropdownVisible === index && (
@@ -156,22 +178,25 @@ const AdminAllMentors = () => {
                           }`}
                         >
                           <div
-                            className="dropdown-item"
+                            className="dropdown-item secondary--cta__button"
                             onClick={() => onViewDetails(mentor.user_id)}
                           >
-                            View
+                             <FiEye class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">View</p>
                           </div>
                           <div
-                            className="dropdown-item"
+                            className="dropdown-item secondary--cta__button"
                             onClick={() => onEditMentor(mentor.user_id)}
                           >
-                            Edit
+                              <MdOutlineModeEdit class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">Edit</p>
                           </div>
                           <div
-                            className="dropdown-item"
+                            className="dropdown-item secondary--cta__button"
                             onClick={() => onDeleteWithConfirmation(mentor.user_id)}
                           >
-                            Delete
+                            <MdDeleteOutline class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">Delete</p>
                           </div>
                           {/* Confirmation modal */}
                           <ModelPopup
@@ -188,7 +213,7 @@ const AdminAllMentors = () => {
               ))}
             </tbody>
           </table>
-        </div>
+        
       </div>
     </section>
   );

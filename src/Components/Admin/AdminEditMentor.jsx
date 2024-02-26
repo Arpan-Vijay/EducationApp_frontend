@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import "../../Styles/AdminAddSchool.css";
+import { MdOutlineModeEdit } from "react-icons/md";
 
 const AdminEditMentor = () => {
   const navigate = useNavigate();
@@ -76,10 +77,18 @@ const AdminEditMentor = () => {
   };
 
   return (
-    <section className="admin__add-mentor">
+    <section className="section__padding">
       <div className="admin__add-school-container">
-        <div className="h-text admin__add-mentor-heading">
-          Update Mentor Details
+      <div className="dashboard__header">
+          <h2 className="heading-text">Update Mentor Information</h2>
+          <div>
+            <div className="buttons">
+              <button class="cta__button" onClick={handleUpdateMentor} style={{width:'170px'}}>
+                <i class="bx bx-plus icon__text"></i>
+                <p class="button__text">Update Mentor</p>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="content">
           <form action="#">
@@ -207,15 +216,7 @@ const AdminEditMentor = () => {
               </div>
               {/* Add similar input boxes for other mentor details */}
             </div>
-            <div className="flex_right">
-              <button
-                className="primary_cta_button"
-                onClick={handleUpdateMentor}
-                style={{ width: "max-content" }}
-              >
-                Update Mentor
-              </button>
-            </div>
+            
           </form>
         </div>
       </div>

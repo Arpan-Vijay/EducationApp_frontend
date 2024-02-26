@@ -4,6 +4,9 @@ import "../../Styles/PublishCourse.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import ModelPopup from "./ModalPopup";
 import toast, { Toaster } from "react-hot-toast";
+import { FiEye } from "react-icons/fi";
+import { MdOutlineModeEdit } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 
 const AdminAllStudents = () => {
   const { schoolId } = useParams();
@@ -74,146 +77,146 @@ const AdminAllStudents = () => {
 
   // JSX rendering of the component
   return (
-    <section className="publish__course">
-      <div className="publish__course-header">
-        <h3 className="publish__course-heading h-text ">
-          Students Information
-        </h3>
+    <section className="section__padding">
+      <div className="dashboard__header">
+        <h2 className="heading-text">Students Information</h2>
+        <div>
+          <div className="buttons">
+            <div class="searchbar">
+              <div class="searchbar-wrapper">
+                <div class="searchbar-left">
+                  <div class="search-icon-wrapper">
+                    <span class="search-icon searchbar-icon">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
 
-        <div className="buttons">
-          <div class="container-input">
-            <input
-              type="text"
-              placeholder="Search"
-              name="text"
-              class="search-input"
-            />
-            <svg
-              fill="#000000"
-              width="20px"
-              height="20px"
-              viewBox="0 0 1920 1920"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z"
-                fill-rule="evenodd"
-              ></path>
-            </svg>
-          </div>
-          <div className="icons">
-            <div className="filter-icon">
-              <i class="bx bx-filter-alt "></i>
-            </div>
-            <div className="order-icon">
-              <i class="bx bx-objects-vertical-bottom"></i>
-            </div>
-          </div>
+                <div class="searchbar-center">
+                  <div class="searchbar-input-spacer"></div>
 
-          <Link to={`/admin/add-student/${schoolId}`}>
-            {" "}
-            <button className="cta_button">Add Student</button>
-          </Link>
+                  <input
+                    type="text"
+                    class="searchbar-input"
+                    maxlength="2048"
+                    name="q"
+                    autocapitalize="off"
+                    // autocomplete="off"
+                    title="Search"
+                    // role="combobox"
+                    placeholder="Search by school"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <Link to={`/admin/add-student/${schoolId}`}>
+              <button class="cta__button">
+                <i class="bx bx-plus icon__text"></i>
+                <p class="button__text">Add Student</p>
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
+      <div className="dashboard__table">
+        <div className="content__card-full-length cards"></div>
 
-      <div className="publish__course-details">
-        <div className="content__card-full-length"></div>
-        <div className="cards">
-          <table className="content__card-table">
-            <tbody>
-              <tr>
-                <th className="content__table-col-heading">S. No.</th>
-                <th className="content__table-col-heading">Name</th>
-                <th className="content__table-col-heading">Email</th>
-                <th className="content__table-col-heading">Contact Info</th>
-                <th className="content__table-col-heading">SAP ID</th>
-                <th className="content__table-col-heading">
-                  Aadhar Card Number
-                </th>
-                <th className="content__table-col-heading">Mentors Assigned</th>
-                <th className="content__table-col-heading"></th>
-              </tr>
-              {studentsData &&
-                studentsData.map((student, index) => (
-                  <tr
-                    className="content__table"
-                    // onClick={() => handleRowClick(student.user_id)}
-                    key={student.user_id}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <td className="content__table-data">{index + 1}</td>
-                    <td className="content__table-data">
-                      {student.first_name} {student.last_name}
-                    </td>
-                    <td className="content__table-data">{student.email}</td>
-                    <td className="content__table-data">
-                      {student.contact_number}
-                    </td>
-                    <td className="content__table-data">{student.sap_id}</td>
-                    <td className="content__table-data">
-                      {student.aadhar_card_number}
-                    </td>
-                    <td className="content__table-data">
-                      {student.mentor_first_name} {student.mentor_last_name}
-                    </td>
-                    <td
-                      className="content__table-data"
-                      style={{ fontSize: "1.2rem", position: "relative" }}
-                    >
-                      <div className="dropdown">
-                        <i
-                          className="bx bx-dots-vertical-rounded"
-                          onClick={() => setDropdownVisible(index)}
-                        ></i>
-                        {dropdownVisible === index && (
+        <table>
+          <thead>
+            <tr className="table__headers">
+              <th>S. No.</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Contact Info</th>
+              <th>SAP ID</th>
+              <th>Aadhar Card Number</th>
+              <th>Mentors Assigned</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {studentsData &&
+              studentsData.map((student, index) => (
+                <tr
+                  className="table__columns"
+                  // onClick={() => handleRowClick(student.user_id)}
+                  key={student.user_id}
+                  style={{ cursor: "pointer" }}
+                >
+                  <td>{index + 1}</td>
+                  <td>
+                    {student.first_name} {student.last_name}
+                  </td>
+                  <td>{student.email}</td>
+                  <td>{student.contact_number}</td>
+                  <td>{student.sap_id}</td>
+                  <td>{student.aadhar_card_number}</td>
+                  <td>
+                    {student.mentor_first_name} {student.mentor_last_name}
+                  </td>
+                  <td style={{ fontSize: "1.2rem", position: "relative" }}>
+                    <div className="dropdown">
+                      <i
+                        className="bx bx-dots-horizontal-rounded"
+                        id="dot"
+                        onClick={() => setDropdownVisible(index)}
+                      ></i>
+                      {dropdownVisible === index && (
+                        <div
+                          className={`dropdown-content ${
+                            dropdownVisible === index
+                              ? "show-pop-up"
+                              : "hide-pop-up"
+                          }`}
+                        >
+                          {/* View option */}
                           <div
-                            className={`dropdown-content ${
-                              dropdownVisible === index
-                                ? "show-pop-up"
-                                : "hide-pop-up"
-                            }`}
+                            className="dropdown-item secondary--cta__button"
+                            onClick={() => onViewDetails(student.user_id)}
                           >
-                            {/* View option */}
-                            <div
-                              className="dropdown-item"
-                              onClick={() => onViewDetails(student.user_id)}
-                            >
-                              View
-                            </div>
-
-                            {/* Edit option */}
-                            <div
-                              className="dropdown-item"
-                              onClick={() => onEditStudent(student.user_id)}
-                            >
-                              Edit
-                            </div>
-
-                            {/* Delete option */}
-                            <div
-                              className="dropdown-item"
-                              onClick={() =>
-                                onDeleteWithConfirmation(student.user_id)
-                              }
-                            >
-                              Delete
-                            </div>
-                            {/* Confirmation modal */}
-                            <ModelPopup
-                              show={showDeleteConfirmation}
-                              onConfirm={onDeleteStudent}
-                              onCancel={cancelDelete}
-                            />
+                            <FiEye class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">View</p>
                           </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
+
+                          {/* Edit option */}
+                          <div
+                            className="dropdown-item secondary--cta__button"
+                            onClick={() => onEditStudent(student.user_id)}
+                          >
+                            <MdOutlineModeEdit class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">Edit</p>
+                          </div>
+
+                          {/* Delete option */}
+                          <div
+                            className="dropdown-item secondary--cta__button"
+                            onClick={() =>
+                              onDeleteWithConfirmation(student.user_id)
+                            }
+                          >
+                             <MdDeleteOutline class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">Delete</p>
+                          </div>
+                          {/* Confirmation modal */}
+                          <ModelPopup
+                            show={showDeleteConfirmation}
+                            onConfirm={onDeleteStudent}
+                            onCancel={cancelDelete}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );

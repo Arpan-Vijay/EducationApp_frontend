@@ -50,10 +50,18 @@ const AdminAddMentor = () => {
   };
 
   return (
-    <section className="admin__add-mentor">
+    <section className="section__padding">
       <div className="admin__add-school-container">
-        <div className="h-text admin__add-mentor-heading">
-          Create New Mentor
+      <div className="dashboard__header">
+          <h2 className="heading-text">Create New Mentor</h2>
+          <div>
+            <div className="buttons">
+              <button class="cta__button" onClick={handleCreateMentor}>
+                <i class="bx bx-plus icon__text"></i>
+                <p class="button__text">Add Mentor</p>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="content">
           <form action="#">
@@ -181,15 +189,7 @@ const AdminAddMentor = () => {
               </div>
               {/* Add similar input boxes for other mentor details */}
             </div>
-            <div className="flex_right">
-              <button
-                className="primary_cta_button"
-                onClick={handleCreateMentor}
-                style={{ width: "max-content" }}
-              >
-                Create Mentor
-              </button>
-            </div>
+            
           </form>
         </div>
       </div>

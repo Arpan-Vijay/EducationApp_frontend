@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import "../../Styles/AdminAddSchool.css";
 
 const AdminAddSchool = () => {
   const navigate = useNavigate();
@@ -28,28 +27,39 @@ const AdminAddSchool = () => {
 
   const handleCreateSchool = (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-  
+
     // Clear any existing toasts before showing a new one
     toast.dismiss();
-  
+
     // Make a request to the backend to add the new school
-    axios.post("http://localhost:3001/api/add-school", schoolData)
+    axios
+      .post("http://localhost:3001/api/add-school", schoolData)
       .then((response) => {
         console.log(response.data.message);
         notify();
-        navigate('/admin/allSchools');
+        navigate("/admin/allSchools");
       })
       .catch((error) => {
         console.error("Error adding school:", error);
-        toast.error("Error adding school. Please try again.", { duration: 4000 });
+        toast.error("Error adding school. Please try again.", {
+          duration: 4000,
+        });
       });
   };
 
   return (
-    <section className="admin__add-school">
+    <section className="section__padding">
       <div className="admin__add-school-container">
-        <div className="h-text admin__add-school-heading">
-          Create New School
+        <div className="dashboard__header">
+          <h2 className="heading-text">Create New School</h2>
+          <div>
+            <div className="buttons">
+              <button class="cta__button" onClick={handleCreateSchool}>
+                <i class="bx bx-plus icon__text"></i>
+                <p class="button__text">Add School</p>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="content">
           <form action="#">
@@ -171,15 +181,7 @@ const AdminAddSchool = () => {
                 />
               </div>
             </div>
-            <div className="flex_right">
-            <button
-              className="primary_cta_button"
-              onClick={handleCreateSchool}
-              style={{ width: "max-content" }}
-            >
-              Create School
-            </button>
-          </div>
+            <div className="flex_right"></div>
           </form>
         </div>
       </div>
@@ -189,4 +191,3 @@ const AdminAddSchool = () => {
 };
 
 export default AdminAddSchool;
-

@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import "../../Styles/AdminAddSchool.css";
+import { MdOutlineModeEdit } from "react-icons/md";
+
 
 const AdminEditSchool = () => {
   const navigate = useNavigate();
@@ -75,13 +77,23 @@ const AdminEditSchool = () => {
   };
 
   return (
-    <section className="admin__add-school">
+    <section className="section__padding">
       <div className="admin__add-school-container">
-        <div className="h-text admin__add-school-heading">
-          Update School Information
+      <div className="dashboard__header">
+        <h2 className="heading-text">Update School Information</h2>
+        <div>
+          <div className="buttons">
+            
+              <button class="cta__button" onClick={handleUpdateSchool} style={{width:'170px'}}>
+                <MdOutlineModeEdit className="icon__text"/>
+                <p class="button__text">Update School</p>
+              </button>
+            
+          </div>
         </div>
+      </div>
         <div className="content">
-        <form action="#">
+          <form action="#">
             <div className="user-details">
               <div
                 className="input-box"
@@ -188,26 +200,19 @@ const AdminEditSchool = () => {
                   required
                 />
               </div>
-              {/* <div className="input-box">
+              <div className="input-box">
                 <span className="details">Funds to deploy</span>
                 <input
                   type="text"
                   placeholder="Ex: 25,000"
-                  name="fundsToDeploy"
-                  value={schoolData.fundsToDeploy}
+                  name="fundsDeployed"
+                  value={schoolData.fundsDeployed}
                   onChange={handleInputChange}
                   required
                 />
-              </div> */}
+              </div>
             </div>
             <div className="flex_right">
-            <button
-              className="primary_cta_button"
-              onClick={handleUpdateSchool}
-              style={{width: 'max-content'}}
-            >
-              Update School
-            </button>
           </div>
           </form>
         </div>

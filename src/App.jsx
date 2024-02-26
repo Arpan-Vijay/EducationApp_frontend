@@ -36,6 +36,7 @@ import AdminEditTeacher from "./Components/Admin/AdminEditTeacher.jsx";
 import AdminEditStudent from "./Components/Admin/AdminEditStudent.jsx";
 import AdminMentorDetails from "./Components/Admin/AdminMentorDetails.jsx";
 import AdminEditMentor from "./Components/Admin/AdminEditMentor.jsx";
+import AdminDetails from "./Components/Admin/AdminDetails.jsx";
 // import SidebarTwo from "./Components/Navbars/SidebarTwo.jsx";
 
 const App = () => {
@@ -124,7 +125,7 @@ const App = () => {
                   <Route path="/home" element={<Home />} />
                   <Route path="/courses" element={<AllCourses />} />
                   <Route path="/create-course" element={<CreateCourse />} />
-                  <Route path="/teacher-profile" element={<TeacherProfile />} />
+                  <Route path="/profile" element={<TeacherProfile />} />
                   <Route path="/publish-course" element={<PublishCourse />} />
                   <Route
                     path="/publish-course-details"
@@ -133,6 +134,9 @@ const App = () => {
 
                   {/* Admin Portal Routes  */}
                   <Route path="/admin/home" element={<AdminHome />} />
+
+                  <Route path="/admin/profile" element={<AdminDetails />} />
+
 
                   <Route
                     path="/admin/allSchools"

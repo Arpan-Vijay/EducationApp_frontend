@@ -1,29 +1,205 @@
-.school__details{
-    margin-top: 2.7rem;
-}
-
-.school__details-container{
+.dashboard__table{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.school__details__card__left,
-.school__details__card__right{
-    /* display: flex; */
-    flex: 1;
     width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
 }
 
-.school__details__card__left{
-    margin-right: 5rem;
+.dashboard__table .profile__container{
+    background: url('../assets/profile_background.jpg');
+    background-size: cover;
+    background-position: 0px 400px;
+    width: 100%;
+    height: 230px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1;
+    position: relative;
+    border-radius: 8px;
 }
 
-.school__details__card__information .information-column{
+.dashboard__table .profile__container::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.4;
+    border-radius: 8px;
+    z-index: -1;
+}
+
+.dashboard__table .profile__container .image__container{
+    margin: 1rem 0;
+}
+
+.dashboard__table .profile__container .user__information{
+    margin-top: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 60%;
+}
+
+.dashboard__table .profile__container .user__information h5{
+    color: #fff;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+
+.dashboard__table .dashboard__left{
+    flex: 1;
+    padding: 1rem 1.5rem;
+    margin-right: 1rem;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+    height: max-content;
+}
+
+.dashboard__table .dashboard__right{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+    padding: 0rem 1.5rem;
+    border-radius: 6px;
+    margin-left: 1rem;
+}
+
+.dashboard__table .user__information--container{
+    display: flex;
+    margin-top: 2rem;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* align-items: center; */
+}
+.dashboard__table .user__information--container__card{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: #fff;
+    margin-right: 2rem;
+    padding: 1rem 2rem;
+    box-shadow:rgba(0, 0, 0, 0.24) 0px 3px 8px; 
+    width: 45%;
+    max-width: 55%;
+    height: max-content;
+    margin-bottom: 2rem;
+}
+
+.heading{
+    font-size: 1.5rem;
+    font-weight: 600;
+    position: relative;
     margin-bottom: 1rem;
+    letter-spacing: 1px;
 }
 
-.school__details__card__information .information-column .column-heading,
-.school__details__card__information .information-column .column-detail{
-    font-size: 1.1rem;
+.heading::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -37px;
+    width: 10px;
+    height: 31px;
+    /* border-radius: 100%; */
+    transform: translateY(-50%);
+    background-color: #0069d9;
+}
+/* .heading::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    height: 2px;
+    width: 65px;
+    border-radius: 10px;
+    background-color: #695CFE;
+} */
+
+#dashboard__table{
+    display: flex;
+    width: 80%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    margin: 0 auto;
+    /* background: url('../assets/bg_pattern.png'); */
+}
+
+
+
+#dashboard__table #dashboard__left{
+    flex: 1;
+    padding: 1rem 1.7rem;
+    margin-left: 3rem;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+    height: max-content;
+}
+
+
+#dashboard__table #dashboard__right{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 0.1;
+    border-radius: 6px;
+    background-color:#fff; 
+    box-shadow:rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    /* margin-left: 1rem; */
+}
+
+.dashboard__table .dashboard__right .dashboard__right--top{
+    margin-bottom: 1rem;
+    padding: 1rem 1rem 0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+    border-radius: 6px;
+}
+.dashboard__table .dashboard__right .dashboard__right--bottom{
+    flex: 0.5;
+    margin-top: 1rem;
+}
+
+.dashboard__right--container{
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard__right--container .dashboard__right--container-top{
+    margin-top: 1rem;
+}
+
+.dashboard__right--container .dashboard__right--container-bottom{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard__right--container-bottom h2{
+    font-weight: 900;
+    margin-top: 0.5rem;
+    color: #2d476b;
+}
+
+.dashboard__right--container-bottom p{
+    /* font-weight: 00; */
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    
 }

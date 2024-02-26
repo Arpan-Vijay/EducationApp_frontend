@@ -119,14 +119,25 @@ const AdminAddStudent = () => {
 
 
   return (
-    <section>
+    <section className="section__padding">
       <Toaster />
       <div className="add__teacher-container">
-        <div className="h-text admin__add-school-heading">
-          Create Student Profile
+      <div className="dashboard__header">
+        <h2 className="heading-text">Create New Student</h2>
+        <div>
+          <div className="buttons">
+            
+              <button class="cta__button" onClick={handleSubmit}
+              >
+                <i class="bx bx-plus icon__text"></i>
+                <p class="button__text">Add Student</p>
+              </button>
+            
+          </div>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="form">
+      </div>
+        <form action="#">
+          <div className="content">
             <div className="details__personal">
               <span className="title__heading">Personal Details</span>
               <div className="fields">
@@ -463,17 +474,6 @@ const AdminAddStudent = () => {
                     />
                   </div>
                 </div>
-              </div>
-
-              <div className="flex_right">
-                <button
-                  type="submit"
-                  className="primary_cta_button"
-                  style={{ width: "max-content" }}
-                  onClick={notify}
-                >
-                  Create Student
-                </button>
               </div>
             </div>
           </div>

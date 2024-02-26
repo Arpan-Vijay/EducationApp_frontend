@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import avatar from "../../assets/avatar_2.png";
 import toast, { Toaster } from "react-hot-toast";
+import { MdOutlineModeEdit } from "react-icons/md";
+// import "../../Styles/AdminteacherDetails.css";
 
 // import "../../Styles/AdminTeacherDetails.css";
 
 const AdminTeacherDetails = () => {
   const { schoolId, userId } = useParams();
-  const [teacherDetails, setTeacherDetails] = useState(null);
+  const navigate = useNavigate();
+  const [teacherDetails, setTeacherDetails] = useState({});
   const [file, setFile] = useState("");
   const [newImage, setNewImage] = useState(null);
   const [dropdownVisible, setDropdownVisible] = useState(null);
@@ -78,7 +81,10 @@ const AdminTeacherDetails = () => {
   }, [schoolId, userId]);
 
   const replacePlaceholders = (string, dataObject) => {
-    return string.replace(/{(\w+)}/g, (match, key) => dataObject[key] || "N/A");
+    return string.replace(
+      /{(\w+)}/g,
+      (match, key) => (dataObject && dataObject[key]) || "N/A"
+    );
   };
 
   const handleEditClick = () => {
@@ -90,7 +96,7 @@ const AdminTeacherDetails = () => {
     const selectedFile = event.target.files[0];
 
     // Check if the selected file is larger than 5 MB
-    if (selectedFile.size > 5 * 1024 * 1024) {      
+    if (selectedFile.size > 5 * 1024 * 1024) {
       toast.error("File too large, limit is 5 MB");
       return;
     }
@@ -119,13 +125,11 @@ const AdminTeacherDetails = () => {
 
       // Set file to the new image URL after a successful update
       setFile(response.data.dataUrl);
-      
+
       // Close the dropdown or perform any other necessary UI update
       setDropdownVisible(false);
-      
-      window.location.reload();
- 
 
+      window.location.reload();
     } catch (error) {
       console.error("Error updating image:", error);
       toast.error("Oops! Something went wrong");
@@ -133,7 +137,6 @@ const AdminTeacherDetails = () => {
     }
   };
 
-  
   const handleDeleteImage = () => {
     // Send request to delete profile image
     axios
@@ -145,7 +148,6 @@ const AdminTeacherDetails = () => {
 
         // toast.success('Image deleted successfully');
         window.location.reload();
-
       })
       .catch((error) => {
         console.error("Error deleting image:", error);
@@ -153,262 +155,232 @@ const AdminTeacherDetails = () => {
       });
   };
 
+  const onEditTeacher = (userId) => {
+    navigate(`/admin/edit-teacher/${schoolId}/${userId}`);
+  };
+
   return (
-    <>
-      {teacherDetails ? (
-        <div className="user__info">
-          <div className="user__info-container">
-            <div className="user__info-card-one">
-              <div className="user__profile-img">
-                <img src={file} className="image" />
-                <div className="dropdown">
+    <div className="section__padding">
+      <div className="dashboard__header">
+        <h2 className="heading-text">Teacher Information</h2>
+        <div>
+          <div className="buttons">
+            <button
+              class="cta__button"
+              onClick={() => onEditTeacher(userId)}
+              style={{ width: "150px" }}
+            >
+              <MdOutlineModeEdit className="icon__text" />
+              <p class="button__text">Edit Teacher</p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="dashboard__table">
+        <div className="profile__container">
+          <div className="image__container">
+            <img src={file || avatar} className="image" />
+            <div className="dropdown">
+              <div
+                className="edit"
+                onClick={() => setDropdownVisible(!dropdownVisible)}
+              >
+                <i className="bx bx-edit" id="text"></i>
+                {/* <span className="text">edit</span> */}
+              </div>
+              {dropdownVisible && (
+                <div
+                  className={`dropdown-content ${
+                    dropdownVisible ? "showup" : "hide-pop-up"
+                  }`}
+                >
+                  {/* Edit option */}
                   <div
-                    className="edit"
-                    onClick={() => setDropdownVisible(!dropdownVisible)}
+                    className="dropdown-item"
+                    onClick={() => handleEditClick()}
                   >
-                    <i className="bx bx-edit" id="text"></i>
-                    {/* <span className="text">edit</span> */}
+                    Edit
+                    <input
+                      type="file"
+                      id="fileInput"
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
                   </div>
-                  {dropdownVisible && (
-                    <div
-                      className={`dropdown-content ${
-                        dropdownVisible ? "showup" : "hide-pop-up"
-                      }`}
-                    >
-                      {/* Edit option */}
-                      <div
-                        className="dropdown-item"
-                        onClick={() => handleEditClick()}
-                      >
-                        Edit
-                        <input
-                          type="file"
-                          id="fileInput"
-                          style={{ display: "none" }}
-                          onChange={handleFileChange}
-                        />
-                      </div>
 
-                      {/* Delete option */}
-                      <div
-                        className="dropdown-item"
-                        onClick={() => handleDeleteImage()}
-                      >
-                        Delete
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              {/* <button
-                className="primary_cta_button"
-                style={{ width: "8%", height: "10%" }}
-                onClick={handleSaveImage}
-              >
-                Save
-              </button>
-              <button
-                className="primary_cta_button"
-                style={{ width: "8%", height: "10%" }}
-                onClick={handleDeleteImage}
-              >
-                Delete
-              </button> */}
-
-              <div className="user__details">
-                <div className="user__name">
-                  <h2 className="h-text">
-                    {replacePlaceholders("{first_name}", teacherDetails)}{" "}
-                    {replacePlaceholders("{last_name}", teacherDetails)}
-                  </h2>
-                  <div className="location">
-                    <i class="bx bx-map-pin location_pin"></i>
-                    <span className="city_detail">
-                      {replacePlaceholders("{city}", teacherDetails)}
-                      {" , "}
-                      {replacePlaceholders("{state}", teacherDetails)}
-                    </span>
+                  {/* Delete option */}
+                  <div
+                    className="dropdown-item"
+                    onClick={() => handleDeleteImage()}
+                  >
+                    Delete
                   </div>
                 </div>
+              )}
+            </div>
+          </div>
 
-                <div className="user__desc">
-                  <p className="p-text">
-                    {replacePlaceholders(
-                      "School Name - {school_name}",
-                      teacherDetails
-                    )}
-                    <span className="vertical_bar">|</span>
-                  </p>
+          <div className="user__information">
+            <h5>
+              {replacePlaceholders("{first_name}", teacherDetails)}{" "}
+              {replacePlaceholders("{last_name}", teacherDetails)}
+            </h5>
+            <h5>
+              {" "}
+              {replacePlaceholders(
+                "School Name - {school_name}",
+                teacherDetails
+              )}
+            </h5>
+            <h5>{replacePlaceholders("SAP ID - {sap_id}", teacherDetails)}</h5>
+            <h5>Role - Teacher</h5>
+          </div>
+        </div>
 
-                  <p className="p-text">
-                    {replacePlaceholders("SAP ID - {sap_id}", teacherDetails)}
-                  </p>
-                </div>
-                <div className="user__desc">
-                  <p className="p-text role">Role : Teacher</p>
-                </div>
-              </div>
+        <div className="user__information--container">
+          <div className="user__information--container__card">
+            <div className="container__heading">
+              <h3 className="heading">Personal Infomation</h3>
             </div>
 
-            <div className="user__info-card-two">
-              <div id="card">
-                <div className="card__heading">
-                  <h3>General Information</h3>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Name</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{first_name}", teacherDetails)}{" "}
-                      {replacePlaceholders("{last_name}", teacherDetails)}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">City</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{city}", teacherDetails)}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">State</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{state}", teacherDetails)}
-                    </p>
-                  </div>
-                </div>
-                {/* <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Father Name</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{father_name}", teacherDetails)}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Mother Name</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{mother_name}", teacherDetails)}
-                    </p>
-                  </div>
-                </div> */}
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Birthdate</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{birthday}", teacherDetails)}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Gender</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{gender}", teacherDetails)}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Aadhar Card Number</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders(
-                        "{aadhar_card_number}",
-                        teacherDetails
-                      )}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Pancard Number</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{pan_card}", teacherDetails)}
-                    </p>
-                  </div>
+            <div id="dashboard__left">
+              <div className="dashboard__left--column">
+                <div className="flex__row">
+                  <h5 className="column-heading">First Name</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{first_name}", teacherDetails)}
+                  </span>
                 </div>
               </div>
-              <div id="card">
-                <div className="card__heading">
-                  <h3>Contact Information</h3>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Email</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{email}", teacherDetails)}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Contact Number</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders("{contact_number}", teacherDetails)}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">
-                      Alternative Contact Number
-                    </h3>
-                    <p className="column-detail">
-                      {replacePlaceholders(
-                        "{alternative_number}",
-                        teacherDetails
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Permanent Address</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders(
-                        "{permanent_address}",
-                        teacherDetails
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Emergency Contact Name</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders(
-                        "{emergency_contact_name}",
-                        teacherDetails
-                      )}
-                    </p>
-                  </div>
-                </div>
-                <div className="card__information">
-                  <div className="information-column">
-                    <h3 className="column-heading">Emergency Contact Number</h3>
-                    <p className="column-detail">
-                      {replacePlaceholders(
-                        "{emergency_contact_number}",
-                        teacherDetails
-                      )}
-                    </p>
-                  </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Middle Name</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{middle_name}", teacherDetails)}
+                  </span>
                 </div>
               </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Last Name</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{last_name}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Gender</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{gender}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Birthdate</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{birthdate}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Aadhar Card</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders(
+                      "{aadhar_card_number}",
+                      teacherDetails
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Pancard</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{pan_card}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+
+              
+            </div>
+          </div>
+          <div className="user__information--container__card">
+            <div className="container__heading">
+              <h3 className="heading">Address Details</h3>
+            </div>
+
+            <div id="dashboard__left">
+              <div className="dashboard__left--column">
+              </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Permanent Address</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{permanent_address}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">City</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{city}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">State</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{state}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+              <div>
+              
+              </div>
+              
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Email</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{email}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Contact Number</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders("{contact_number}", teacherDetails)}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="flex__row">
+                  <h5 className="column-heading">Alternative Number</h5>
+                  <span className="column-detail">
+                    {replacePlaceholders(
+                      "{alternative_contact_number}",
+                      teacherDetails
+                    )}
+                  </span>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
-      ) : (
-        <div>Loading...</div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 
 export default AdminTeacherDetails;
+
+{
+}

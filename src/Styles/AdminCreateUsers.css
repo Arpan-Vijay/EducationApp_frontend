@@ -1,14 +1,13 @@
 .add__teacher-container {
-  position: relative;
-  max-width: 95%;
+  /* position: relative;
   width: 100%;
-  border-radius: 6px;
+  border-radius: 6px; */
   /* padding: 30px; */
-  margin: 0 15px;
-  background-color: #fff;
+  /* margin: 0 15px; */
+  /* background-color: #fff; */
   /* border: 1px solid black; */
   /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); */
-  padding: 2rem 3rem 1rem 1rem;
+  /* padding: 2rem 3rem 1rem 1rem; */
 }
 .title__heading {
   position: relative;
@@ -27,16 +26,16 @@
   background-color: #695CFE;
 }
 .add__teacher-container form {
-  position: relative;
-  margin-top: 16px;
-  min-height: 490px;
-  background-color: #fff;
+  /* position: relative; */
+  /* margin-top: 16px; */
+  /* min-height: 100%; */
+  /* background-color: #fff; */
   /* overflow: hidden; */
 }
 .add__teacher-container form .form {
-  position: absolute;
+  /* position: absolute;
   background-color: #fff;
-  transition: 0.3s ease;
+  transition: 0.3s ease; */
 }
 
 .add__teacher-container form .fields {
@@ -44,7 +43,7 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin: 1rem 0;
+  margin: 1.2rem 0;
 }
 form .fields .input-field {
   display: flex;
@@ -53,10 +52,11 @@ form .fields .input-field {
   margin: 4px 0;
 }
 .input-field label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #2e2e2e;
+  display: block;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
+
 .input-field input,
 select {
   outline: none;
@@ -65,7 +65,7 @@ select {
   color: #333;
   border-radius: 5px;
   border: 1px solid #aaa;
-  padding: 0 15px;
+  padding: 5px 15px;
   height: 42px;
   margin: 8px 0;
 }
@@ -81,7 +81,7 @@ select {
   color: #333;
 }
 
-@media (max-width: 750px) {
+/* @media (max-width: 750px) {
   .add__teacher-container form {
     overflow-y: scroll;
   }
@@ -97,4 +97,4 @@ select {
   form .fields .input-field {
     width: 100%;
   }
-}
+} */

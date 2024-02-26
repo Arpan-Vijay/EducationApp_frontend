@@ -26,42 +26,60 @@ const AdminHome = () => {
   // Function to render a single school's information
   const renderSchoolInfo = (school, index) => (
     <div
-      className="home__school-container"
-      key={index}
-      onClick={() => onViewSchoolDetails(school.school_id)}
-    >
-      <div className="info-box">
-        <p className="p-text">School Name</p>
-        <span className="text">{school.school_name}</span>
+    className="dashboard__container"
+    // style={{border:'1px solid black'}} 
+    key={index} 
+    onClick={() => onViewSchoolDetails(school.school_id)}>
+      <div >
+        <div className="flex__row">
+          <h5 className="column-heading">School Name</h5>
+          <span className="column-detail">{school.school_name}</span>
+        </div>
       </div>
-      <div className="info-box">
-        <p className="p-text">Principal Name</p>
-        <span className="text">{school.principal_name}</span>
+
+      <div>
+        <div className="flex__row">
+          <h5 className="column-heading">Principal Name</h5>
+          <span className="column-detail">{school.principal_name}</span>
+        </div>
       </div>
-      <div className="info-box">
-        <p className="p-text">Funds Deployed</p>
-        <span className="text">{school.funds_deployed}</span>
+
+      <div>
+        <div className="flex__row">
+          <h5 className="column-heading">Funds Deployed</h5>
+          <span className="column-detail">{school.funds_deployed}</span>
+        </div>
       </div>
-      <div className="info-box">
-        <p className="p-text">Total Students</p>
-        <span className="text">{school.total_students}</span>
+      <div>
+        <div className="flex__row">
+          <h5 className="column-heading">Total Students</h5>
+          <span className="column-detail">{school.total_students}</span>
+        </div>
       </div>
     </div>
   );
 
   return (
-    <section className="admin__home">
-      
-      <div className="flexcontainer">
-        {/* Map through schoolData and render the school information */}
-        {schoolData.map((school, index) => renderSchoolInfo(school, index))}
+    <section className="section__padding">
+      <div className="dashboard__header">
+        <h2 className="heading-text">Dashboard</h2>
+        <div>
+          <div className="buttons">
+            <Link to="/admin/add-school">
+              <button class="cta__button">
+                <i class="bx bx-plus icon__text"></i>
+                <p class="button__text">Add School</p>
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
 
-      {/* <div className="button flex_right" style={{marginRight:'1rem'}}>
-        <Link to="/admin/add-school">
-          <button className="cta_button" style={{width:'max-content'}}>Add School</button>
-        </Link>
-      </div> */}
+      <div className="dashboard__table">
+        <div className="dashboard__containers">
+          {schoolData.map((school, index) => renderSchoolInfo(school, index))}
+        </div>
+      </div>
     </section>
   );
 };

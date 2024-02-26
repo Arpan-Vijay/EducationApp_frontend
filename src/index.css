@@ -25,7 +25,39 @@
   /* font-family: 'Rubik', sans-serif; */
 }
 
+body{
+  background-color: #f4f7fc4d;
+}
+
 :root{
+  /* ===== Colors ===== */
+  --body-color: #E4E9F7;
+  --sidebar-color: #FFF;
+  --primary-color: #0b2e4a;
+  --primary-color-light: #F6F5FF;
+  --toggle-color: #DDD;
+  --text-color: #000000cf;
+
+  /* ====== Transition ====== */
+  --tran-03: all 0.2s ease;
+  --tran-03: all 0.3s ease;
+  --tran-04: all 0.3s ease;
+  --tran-05: all 0.3s ease;
+}
+
+body{
+  min-height: 100vh;
+  background-color: var(--body-color);
+  transition: var(--tran-05);
+}
+
+::selection{
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+
+/* :root{
   --primary-color:#1F3A5F;
 
   --secondary-color:#b6ccd8;
@@ -40,16 +72,16 @@
   --bg-300:#cccbc8;
     
 }
-
+ */
 
 /* body{
   background-color: #f6f5ff;
 }
  */
 
-:root{
+/* :root{
   --text-section-heading-size : 20px;
   --text-heading-size : 14px font-weight: 500;
   --text-desc-size : 14px font-weight: 300;
 
-}
+} */

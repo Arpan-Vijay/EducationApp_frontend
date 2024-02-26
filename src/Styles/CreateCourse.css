@@ -42,10 +42,11 @@ form .user-details .input-box{
   margin-bottom: 15px;
   width: calc(100% / 2 - 20px);
 }
-form .input-box span.details{
+form .input-box span.details {
   display: block;
-  font-weight: 500;
+  font-weight: 700;
   margin-bottom: 5px;
+  letter-spacing: 1px;
 }
 .user-details .input-box input,
 .user-details .input-box select,

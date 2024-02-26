@@ -4,6 +4,9 @@ import "../../Styles/PublishCourse.css";
 import { Link, useNavigate } from "react-router-dom";
 import ModelPopup from "./ModalPopup";
 import toast, { Toaster } from "react-hot-toast";
+import { FiEye } from "react-icons/fi";
+import { MdOutlineModeEdit } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 
 const AdminAllSchools = () => {
   const navigate = useNavigate();
@@ -40,71 +43,24 @@ const AdminAllSchools = () => {
     setDropdownVisible(null);
   };
 
-  // Delete school
-  // const onDeleteSchool = async (schoolId) => {
-  //   try {
-  //     // Send a request to delete the school
-  //     const response = await axios.delete(
-  //       "http://localhost:3001/api/delete-school",
-  //       {
-  //         data: { schoolId }, // Send schoolId in the request body
-  //       }
-  //     );
-
-  //     console.log(response.data.message);
-
-  //     // Refresh the schoolData by fetching the updated data
-  //     axios
-  //       .get("http://localhost:3001/api/fetch-school-data")
-  //       .then((res) => setSchoolData(res.data.schoolData || []));
-
-  //     setDropdownVisible(null);
-  //   } catch (error) {
-  //     console.error("Error deleting school:", error);
-  //   }
-  // };
-
   const onDeleteWithConfirmation = (schoolId, totalTeachers, totalStudents) => {
     if (totalTeachers > 0 || totalStudents > 0) {
       // Display an error message
-      toast.error("Cannot delete the school. Delete all teachers and students first.");
+      toast.error(
+        "Cannot delete the school. Delete all teachers and students first."
+      );
     } else {
       setSchoolToDelete(schoolId);
       setShowDeleteConfirmation(true);
     }
   };
 
-  // // Confirm deletion and send request
-  // const confirmDelete = async () => {
-  //   // Perform deletion logic here (similar to onDeleteSchool)
-  //   try {
-  //     const response = await axios.delete(
-  //       "http://localhost:3001/api/delete-school",
-  //       {
-  //         data: { schoolId: schoolToDelete },
-  //       }
-  //     );
-
-  //     console.log(response.data.message);
-
-  //     // Refresh the schoolData by fetching the updated data
-  //     axios
-  //       .get("http://localhost:3001/api/fetch-school-data")
-  //       .then((res) => setSchoolData(res.data.schoolData || []));
-
-  //     setDropdownVisible(null);
-  //     setShowDeleteConfirmation(false); 
-  //     toast.success(" Information deleted successfully!")
-  //   } catch (error) {
-  //     console.error("Error deleting school:", error);
-  //     toast.error("Error deleting school");
-  //   }
-  // };
-
   const confirmDelete = async () => {
     try {
-      const schoolToDeleteDetails = schoolData.find((school) => school.school_id === schoolToDelete);
-  
+      const schoolToDeleteDetails = schoolData.find(
+        (school) => school.school_id === schoolToDelete
+      );
+
       if (
         schoolToDeleteDetails &&
         schoolToDeleteDetails.total_teachers !== null &&
@@ -118,26 +74,27 @@ const AdminAllSchools = () => {
             data: { schoolId: schoolToDelete },
           }
         );
-  
+
         console.log(response.data.message);
-  
+
         axios
           .get("http://localhost:3001/api/fetch-school-data")
           .then((res) => setSchoolData(res.data.schoolData || []));
-  
+
         setDropdownVisible(null);
         setShowDeleteConfirmation(false);
         toast.success("Information deleted successfully!");
       } else {
-        toast.error("Cannot delete the school. Delete all teachers and students first.");
+        toast.error(
+          "Cannot delete the school. Delete all teachers and students first."
+        );
       }
     } catch (error) {
       console.error("Error deleting school:", error);
       toast.error("Error deleting school");
     }
   };
-  
-  
+
   // Cancel deletion
   const cancelDelete = () => {
     setSchoolToDelete(null);
@@ -146,95 +103,87 @@ const AdminAllSchools = () => {
 
   // JSX rendering of the component
   return (
-    <section className="publish__course">
-      <div className="publish__course-header">
-        <h3 className="publish__course-heading h-text ">Schools Information</h3>
-        <div className="buttons">
-          <div className="container-input">
-            <input
-              type="text"
-              placeholder="Search"
-              name="text"
-              className="search-input"
-            />
-            <svg
-              fill="#000000"
-              width="20px"
-              height="20px"
-              viewBox="0 0 1920 1920"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z"
-                fillRule="evenodd"
-              ></path>
-            </svg>
-          </div>
+    <section className="section__padding">
+      <div className="dashboard__header">
+        <h2 className="heading-text">Schools Information</h2>
+        <div>
+          <div className="buttons">
+            <div class="searchbar">
+              <div class="searchbar-wrapper">
+                <div class="searchbar-left">
+                  <div class="search-icon-wrapper">
+                    <span class="search-icon searchbar-icon">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
 
-          <div className="icons">
-            <div className="filter-icon">
-              <i className="bx bx-filter-alt "></i>
+                <div class="searchbar-center">
+                  <div class="searchbar-input-spacer"></div>
+
+                  <input
+                    type="text"
+                    class="searchbar-input"
+                    maxlength="2048"
+                    name="q"
+                    autocapitalize="off"
+                    // autocomplete="off"
+                    title="Search"
+                    // role="combobox"
+                    placeholder="Search by school"
+                  />
+                </div>
+              </div>
             </div>
+
+            <Link to="/admin/add-school">
+              <button class="cta__button">
+                <i class="bx bx-plus icon__text"></i>
+                <p class="button__text">Add School</p>
+              </button>
+            </Link>
           </div>
-          <Link to="/admin/add-school">
-            <button className="cta_button">Add School</button>
-          </Link>
         </div>
       </div>
-      <div className="publish__course-details">
-        <div className="content__card-full-length"></div>
-        <div className="cards">
-          <table className="content__card-table">
-            <tbody>
-              <tr>
-                <th className="content__table-col-heading">S.No.</th>
-                <th className="content__table-col-heading">School Name</th>
-                {/* <th className="content__table-col-heading">Principal Name</th> */}
-                <th className="content__table-col-heading">Funds Deployed</th>
-                <th className="content__table-col-heading">Contact Number</th>
-                <th className="content__table-col-heading">Teachers Count</th>
-                <th className="content__table-col-heading">Students Count</th>
-                <th
-                  className="content__table-col-heading"
-                  style={{ position: "relative" }}
-                ></th>
+      <div className="dashboard__table">
+        <div className="content__card-full-length cards">
+          <table>
+            <thead>
+              <tr className="table__headers">
+                <th>S.No.</th>
+                <th>School Name</th>
+                {/* <th>Principal Name</th> */}
+                <th>Funds Deployed</th>
+                <th>Contact Number</th>
+                <th style={{ position: "relative" }}>Teachers Count</th>
+                <th style={{ position: "relative" }}>Students Count</th>
+                <th style={{ fontSize: "1.2rem", position: "relative" }}></th>
               </tr>
+            </thead>
+            <tbody>
               {schoolData.map((school, index) => (
-                <tr
-                  key={index}
-                  className="content__table"
-                  // onClick={() =>
-                  //   navigate(`/admin/allSchools/${school.school_id}`)
-                  // }
-                >
-                  <td className="content__table-data">{index + 1}</td>
-                  <td className="content__table-data">{school.school_name}</td>
-                  {/* <td className="content__table-data">{school.principal_name}</td> */}
-                  <td className="content__table-data">
-                    {school.funds_deployed}
-                  </td>
-                  <td className="content__table-data">
-                    {school.contact_number}
-                  </td>
-                  <td
-                    className="content__table-data"
-                    style={{ paddingLeft: "2rem" }}
-                  >
+                <tr key={index} className="table__columns">
+                  <td>{index + 1}</td>
+                  <td>{school.school_name}</td>
+                  {/* <td>{school.principal_name}</td> */}
+                  <td>{school.funds_deployed}</td>
+                  <td>{school.contact_number}</td>
+                  <td style={{ paddingLeft: "2rem" }}>
                     {school.total_teachers}
                   </td>
-                  <td
-                    className="content__table-data"
-                    style={{ paddingLeft: "2rem" }}
-                  >
+                  <td style={{ paddingLeft: "2rem" }}>
                     {school.total_students}
                   </td>
-                  <td
-                    className="content__table-data"
-                    style={{ fontSize: "1.2rem", position: "relative" }}
-                  >
-                    <div className="dropdown">
+                  <td style={{ fontSize: "1.2rem", position: "relative" }}>
+                    <div>
                       <i
-                        className="bx bx-dots-vertical-rounded"
+                        className="bx bx-dots-horizontal-rounded"
+                        id="dot"
                         onClick={() => setDropdownVisible(index)}
                       ></i>
                       {dropdownVisible === index && (
@@ -246,37 +195,34 @@ const AdminAllSchools = () => {
                           }`}
                         >
                           {/* View option */}
-                          <div
-                            className="dropdown-item"
+
+                          <button
+                            className="dropdown-item secondary--cta__button"
                             onClick={() => onViewDetails(school.school_id)}
                           >
-                            View
-                          </div>
+                            <FiEye class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">View</p>
+                          </button>
 
                           {/* Edit option */}
-                          <div
-                            className="dropdown-item"
+
+                          <button
+                            className="dropdown-item secondary--cta__button"
                             onClick={() => onEditSchool(school.school_id)}
                           >
-                            Edit
-                          </div>
+                            <MdOutlineModeEdit class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">Edit</p>
+                          </button>
 
-                          {/* Delete option */}
-                          {/* <div
-                            className="dropdown-item"
-                            onClick={() => onDeleteSchool(school.school_id)}
-                            // style={{position:'absolute', border:'1px solid black', zIndex: '100'}}
-                          >
-                            Delete
-                          </div> */}
-                          <div
-                            className="dropdown-item"
+                          <button
+                            className="dropdown-item secondary--cta__button"
                             onClick={() =>
                               onDeleteWithConfirmation(school.school_id)
                             }
                           >
-                            Delete
-                          </div>
+                            <MdDeleteOutline class="bx bx-plus secondary--icon__text" />
+                            <p class="secondary--button__text">Delete</p>
+                          </button>
 
                           {/* Confirmation modal */}
                           <ModelPopup

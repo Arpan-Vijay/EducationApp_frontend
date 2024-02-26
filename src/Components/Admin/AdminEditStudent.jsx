@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import "../../Styles/AdminCreateUsers.css";
+import { MdOutlineModeEdit } from "react-icons/md";
 
 const AdminEditStudent = () => {
   const navigate = useNavigate();
@@ -139,14 +140,25 @@ const AdminEditStudent = () => {
   };
 
   return (
-    <section>
+    <section className="section__padding">
       <Toaster />
       <div className="add__teacher-container">
-        <div className="h-text admin__add-school-heading">
-          Update Student Profile
+      <div className="dashboard__header">
+        <h2 className="heading-text">Update Student Information</h2>
+        <div>
+          <div className="buttons">
+            
+              <button class="cta__button" onClick={handleUpdateStudent} style={{width:'170px'}}
+              >
+                <MdOutlineModeEdit className="icon__text"/>
+                <p class="button__text">Update Student</p>
+              </button>
+            
+          </div>
         </div>
-        <form onSubmit={handleUpdateStudent}>
-          <div className="form">
+      </div>
+        <form action="#">
+          <div className="content">
             <div className="details__personal">
               <span className="title__heading">Personal Details</span>
               <div className="fields">
@@ -264,12 +276,13 @@ const AdminEditStudent = () => {
                       Select mentor
                     </option>
                     {mentors.map((mentor) => (
-                      <option key={mentor.mentor_id} value={mentor.mentor_id}>
+                      <option key={mentor.user_id} value={mentor.user_id}>
                         {mentor.mentor_name}
                       </option>
                     ))}
                   </select>
                 </div>
+                
               </div>
               <div className="details__address">
                 <span className="title__heading">Address Details</span>
@@ -475,16 +488,6 @@ const AdminEditStudent = () => {
                     />
                   </div>
                 </div>
-              </div>
-
-              <div className="flex_right">
-                <button
-                  type="submit"
-                  className="primary_cta_button"
-                  style={{ width: "max-content" }}                  onClick={notify}
-                >
-                  Update Student
-                </button>
               </div>
             </div>
           </div>
